@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CS226 Mock Test 4</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="bar">
+  <div class="bar-in">
+    <div>
+      <div class="bar-title"><a href="../index.html">CS226 practice</a> · Mock Test 4</div>
+      <div class="bar-sub">Closed book · 90 min · 38 pts · <span id="todoCount">0</span> TODO stubs left</div>
+    </div>
+    <span class="spacer"></span>
+    <span class="status" id="status" aria-live="polite">Loading…</span>
+    <span class="timer" id="timer" aria-label="Time remaining">90:00</span>
+    <button id="pauseBtn" type="button">Pause</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="banner err" id="storageBanner" hidden><span class="msg"></span><button type="button" onclick="document.getElementById('exportBtn').click()">Download backup</button></div>
+  <div class="banner" id="tabBanner" hidden><span class="msg">This exam was changed in another tab while you were typing here.</span><button type="button" id="loadTheirsBtn">Load the other tab's version</button><button type="button" id="keepMineBtn">Keep mine</button></div>
+
+  <div class="cover">
+    <h1>Mock Test 4: heaps, hashing, sorting and graphs</h1>
+    <ul>
+      <li>10 questions, 38 points, in the shape of the real exam: short answers and a trace, then coding questions.</li>
+      <li>90 minutes. The timer runs only while this tab is visible and not paused. Trace one tiny input through every coding answer before moving on.</li>
+      <li>Helpers marked GIVEN already exist: call them, don't rewrite them. Use the course's exceptions: <code>IllegalArgumentException</code>, <code>NoSuchElementException</code>.</li>
+      <li>Everything saves in this browser as you type. Use <b>Download backup</b> below to move to another device or keep a copy.</li>
+      <li>After you submit, each question shows its rubric and a reference solution, and you can score yourself. See <a href="https://github.com/ramlukn/cs226-exam3-practice/blob/main/docs/grading.md">how to grade</a>.</li>
+    </ul>
+    <div class="rubric"><span class="chip">3 short answer and trace · 7 pts</span><span class="chip">7 coding · 31 pts</span></div>
+  </div>
+
+  <div class="panel" aria-labelledby="attH">
+    <h2 id="attH">Attempt</h2>
+    <div class="attempt-row">
+      <select id="attemptSelect" aria-label="Choose an attempt"></select>
+      <button type="button" id="newAttemptBtn">New attempt</button>
+      <button type="button" id="deleteAttemptBtn" class="danger">Delete this attempt</button>
+    </div>
+    <p class="small" id="attemptInfo"></p>
+  </div>
+
+  <section class="part" aria-labelledby="pa">
+    <div class="part-h"><h2 id="pa">Mock Test 4</h2><span>38 pts · about 90 min</span></div>
+<div class="q"><div class="q-h"><span class="q-id">Q1</span><span class="q-pts">2.5 pts</span></div><p><code>Person</code> has fields <code>String name</code>, <code>int age</code> and <code>long id</code>. Its <code>equals</code> returns true when <b>name and age</b> are equal; it ignores <code>id</code>. For each <code>hashCode</code> below, say whether it obeys the hashCode contract, and if it does, whether it is a good choice for our <code>HashMap</code>. One sentence each.</p>
+<ol type="a">
+<li><code>return age;</code></li>
+<li><code>return Objects.hash(name, age, id);</code></li>
+<li><code>return 0;</code></li>
+<li><code>return (int) (Math.random() * 1000);</code></li>
+<li><code>return Objects.hash(name, age);</code></li>
+</ol><textarea class="ans field ex" id="Q1" aria-label="Answer Q1"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">2.5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>(a) Legal: equal Persons have equal ages. Weak: everyone with the same age collides, so buckets get long</span></li><li><b>+0.5</b><span>(b) Illegal: two equal Persons with different ids get different hash codes, so lookups miss</span></li><li><b>+0.5</b><span>(c) Legal but terrible: every key lands in one bucket, so get and put become O(n)</span></li><li><b>+0.5</b><span>(d) Illegal: not consistent, the same object gives a different hash each call, so even the stored object can't be found</span></li><li><b>+0.5</b><span>(e) Legal and good: uses exactly the fields equals uses and spreads keys out</span></li><li class="pen"><b>−0.125</b><span>Right verdict with no reason or a wrong reason. Award the item, then apply this penalty once</span></li></ul><div class="refsol"><p>The test for <i>legal</i> is one question: can two objects that are <code>equals</code> ever get different hash codes? (b) can, through <code>id</code>; (d) can, even for one object. The test for <i>good</i> is how well unequal keys spread out: (c) puts everything in one bucket, (a) groups by age, (e) mixes both fields. Rule of thumb: hash exactly the fields <code>equals</code> compares.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q1" min="0" max="2.5" step="0.125" inputmode="decimal"> / 2.5</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q2</span><span class="q-pts">2.5 pts</span></div><p>In an indexed min-heap, a student's <code>swap(i, j)</code> exchanges the two entries but only runs <code>index.put(heap[i].item, i)</code>; it never updates the map for the entry that moved to <code>j</code>.</p>
+<p>(a) Starting from empty, give a short sequence of operations after which <code>changePriority</code> changes the <b>wrong item's</b> priority, and say which item it changes.</p>
+<p>(b) What is the running time of <code>changePriority</code> with a correct map, and what would it be if the heap had no map at all?</p>
+<p>(c) When the new priority is <b>smaller</b> than the old one, why is <code>swim</code> enough, with no <code>sink</code>?</p><textarea class="ans field ex" id="Q2" aria-label="Answer Q2"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">2.5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>(a) Explains the cause: the item that moved to <code>j</code> keeps its old slot number in the map</span></li><li><b>+0.75</b><span>(a) A concrete sequence that shows it, e.g. insert A:5, insert B:3 (B swims, <code>swap(1, 0)</code> leaves B→1 in the map), then <code>changePriority(B, 9)</code> changes A, which is now in slot 1</span></li><li><b>+0.5</b><span>(b) O(log n) with the map (O(1) expected lookup, then one swim or sink); O(n) without it, because finding the item is a scan</span></li><li><b>+0.75</b><span>(c) Its children were ≥ the old priority, which is ≥ the new one, so the order below it still holds; only the edge to its parent can break</span></li><li class="pen"><b>−0.125</b><span>The sequence in (a) depends on which index the student's swap updates and gets it backwards, but the idea is right</span></li></ul><div class="refsol"><p>(a) insert A:5 → slot 0, map A→0. insert B:3 → slot 1, then B swims with <code>swap(1, 0)</code>. Now heap is B, A. The broken swap updates only <code>heap[1].item</code> = A→1, so the map still says B→1. <code>changePriority(B, 9)</code> looks up slot 1 and changes <b>A</b>. (If the swap is called as <code>swap(0, 1)</code> it updates B and leaves A wrong instead: either way one item points at the other's slot.)</p>
+<p>(b) O(log n) vs O(n). (c) Before the change, each child ≥ old priority. The new priority is smaller, so each child is still ≥ it. Only the parent can now be larger.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q2" min="0" max="2.5" step="0.125" inputmode="decimal"> / 2.5</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q3</span><span class="q-pts">2 pts</span></div><p>The course's open-addressing map: linear probing, Integer keys hash to themselves, 7 slots, tombstones. After storing a new key it rehashes if <code>used &gt; m/2</code>: to the next prime, 17, if also <code>size &gt; m/2</code>, otherwise at the same size. Rehash reinserts live entries in old-slot order. Write tables as <code>slot:key</code> pairs and mark tombstones with †.</p>
+<p>From empty: <code>put 3, put 10, put 17, remove 10</code>.</p>
+<p>(a) List, in order, the slots that <code>get(17)</code> looks at, and the slots that <code>get(10)</code> looks at.</p>
+<p>(b) Then <code>put 24, put 31</code>. Where does 24 go? Give the final table with <code>size</code> and <code>used</code>.</p><textarea class="ans field ex" id="Q3" aria-label="Answer Q3"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">2 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>(a) <code>get(17)</code>: 3, 4†, 5 (found). It does not stop at the tombstone in slot 4</span></li><li><b>+0.5</b><span>(a) <code>get(10)</code>: 3, 4†, 5, 6 (empty, so not found). Only an empty slot ends the search</span></li><li><b>+0.5</b><span>(b) 24 probes 3, 4†, 5, 6 (empty) and goes back to the tombstone in slot 4; <code>used</code> stays 3</span></li><li><b>+0.5</b><span>(b) 31 lands in slot 6, so used = size = 4 &gt; 3.5 and the table grows to 17. Final: 0:17, 3:3, 7:24, 14:31 with size = used = 4</span></li><li class="pen"><b>−0.25</b><span>Gives values in an array with no slot numbers, or a table of the wrong length, so the grader can't tell which slot holds what</span></li></ul><div class="refsol"><pre class="show">put 3:  slot 3                              used 1  size 1
+put 10: 3 taken → 4                          used 2  size 2
+put 17: 3, 4 taken → 5                       used 3  size 3   (3 &gt; 3.5? no)
+remove 10: slot 4 = 10†                      used 3  size 2
+
+(a) get(17): 3 (key 3), 4 (†, keep going), 5 → found
+    get(10): 3, 4 (†, keep going), 5 (key 17), 6 (empty) → not found
+
+(b) put 24: 3, 4 (†, remember), 5, 6 empty → store in 4    used 3  size 3
+    put 31: 3, 4, 5, 6 empty → store in 6                   used 4  size 4
+            used 4 &gt; 3.5 and size 4 &gt; 3.5 → grow to 17
+    rehash in old-slot order: 3→3, 24→7, 17→0, 31→14
+    final m=17: 0:17  3:3  7:24  14:31      size 4  used 4</pre></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q3" min="0" max="2" step="0.125" inputmode="decimal"> / 2</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q4</span><span class="q-pts">4 pts</span></div><p>Implement <code>insert</code> and the <code>swim</code> it calls for the array-based min-heap. Null values throw <code>IllegalArgumentException</code>. When the array is full, double its length before inserting.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q4" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q4">public class ArrayHeap&lt;T extends Comparable&lt;T&gt;&gt; {
+  private T[] heap;   // heap[0..size-1], root at 0
+  private int size;
+
+  // GIVEN: private int compare(T a, T b)     negative if a has higher priority
+  // GIVEN: private int parent(int i)         (i - 1) / 2
+  // GIVEN: private void swap(int i, int j)
+
+  public void insert(T x) {
+    // TODO
+  }
+
+  private void swim(int i) {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q4">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">4 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.25</b><span>Throws <code>IllegalArgumentException</code> for null</span></li><li><b>+0.5</b><span>Grows when <code>size == heap.length</code> (e.g. <code>Arrays.copyOf(heap, 2 * heap.length)</code>), before writing</span></li><li><b>+0.5</b><span>Places x at index <code>size</code>, increments size, and swims from the new last index</span></li><li><b>+0.75</b><span>swim loops while <code>i &gt; 0</code> (the root has no parent)</span></li><li><b>+0.75</b><span>Continues only while the node is smaller than its parent: <code>compare(heap[i], heap[parent(i)]) &lt; 0</code></span></li><li><b>+0.75</b><span>Swaps with the parent and moves up: <code>i = parent(i)</code></span></li><li><b>+0.5</b><span>Stops as soon as the node is not smaller than its parent (no extra swaps)</span></li><li class="pen"><b>−0.5</b><span>Compare is backwards (swims while the node is larger): a coherent max-heap swim. Award the items in mirror image, then apply this</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">public void insert(T x) {
+  if (x == null) throw new IllegalArgumentException();
+  if (size == heap.length) heap = Arrays.copyOf(heap, 2 * heap.length);  // full: grow
+  heap[size] = x;
+  size++;
+  swim(size - 1);
+}
+
+private void swim(int i) {
+  while (i &gt; 0 &amp;&amp; compare(heap[i], heap[parent(i)]) &lt; 0) {  // smaller than my parent
+    swap(i, parent(i));
+    i = parent(i);
+  }
+}</pre><p>Say the loop as a sentence first: "while I'm not the root and I'm smaller than my parent, swap up." Translate <code>compare(a, b) &lt; 0</code> as <code>a &lt; b</code>.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q4" min="0" max="4" step="0.125" inputmode="decimal"> / 4</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q5</span><span class="q-pts">4 pts</span></div><p>Implement <code>put</code> for the course's separate-chaining <code>HashMap</code>. If the key is already there, replace its value and return the <b>old</b> value. Otherwise add it at the <b>head</b> of its bucket and return <code>null</code>. After adding a new key, call <code>rehash()</code> if the load factor <code>size / buckets.length</code> is now above 0.75. Null keys or values throw <code>IllegalArgumentException</code>.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q5" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q5">public class HashMap&lt;K, V&gt; implements Map&lt;K, V&gt; {
+  private static class Node&lt;K, V&gt; {
+    K key; V value; Node&lt;K, V&gt; next;
+    Node(K key, V value) { this.key = key; this.value = value; }
+  }
+  private Node&lt;K, V&gt;[] buckets;
+  private int size;
+
+  // GIVEN: private void rehash()   grows buckets and reinserts every node
+
+  public V put(K key, V value) {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q5">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">4 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.25</b><span>Throws <code>IllegalArgumentException</code> for a null key or value</span></li><li><b>+0.5</b><span>Finds the bucket with <code>Math.floorMod(key.hashCode(), buckets.length)</code></span></li><li><b>+0.5</b><span>Walks that bucket's chain until null</span></li><li><b>+1</b><span>On an <code>equals</code> match: saves the old value, replaces it, returns the old value (size unchanged)</span></li><li><b>+0.75</b><span>Otherwise inserts a new node at the head: <code>node.next = buckets[i]; buckets[i] = node;</code></span></li><li><b>+0.25</b><span>Increments size only for a new key</span></li><li><b>+0.5</b><span>Checks the load factor with real division after adding, and calls <code>rehash()</code></span></li><li><b>+0.25</b><span>Returns null for a new key</span></li><li class="pen"><b>−0.25</b><span>Integer division <code>size / buckets.length</code>, which is 0 until the table is full, so it never rehashes in time</span></li><li class="pen"><b>−0.25</b><span>Compares keys with <code>==</code></span></li><li class="pen"><b>−0.25</b><span>Uses <code>%</code> without floorMod</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">public V put(K key, V value) {
+  if (key == null || value == null) throw new IllegalArgumentException();
+  int i = Math.floorMod(key.hashCode(), buckets.length);
+  for (Node&lt;K, V&gt; curr = buckets[i]; curr != null; curr = curr.next) {
+    if (curr.key.equals(key)) {          // key exists: replace
+      V old = curr.value;
+      curr.value = value;
+      return old;
+    }
+  }
+  Node&lt;K, V&gt; node = new Node&lt;&gt;(key, value);
+  node.next = buckets[i];                // new node goes at the head: O(1)
+  buckets[i] = node;
+  size++;
+  if ((double) size / buckets.length &gt; 0.75) rehash();   // double, not int, division
+  return null;
+}</pre></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q5" min="0" max="4" step="0.125" inputmode="decimal"> / 4</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q6</span><span class="q-pts">6 pts</span></div><p>For the course's open-addressing map, write a private helper <code>find(key)</code> that returns the slot holding a <b>live</b> entry for <code>key</code>, or <code>-1</code> if there is none. Then use it to implement <code>containsKey</code> and <code>remove</code>. <code>remove</code> returns the removed value, or <code>null</code> if the key wasn't there. Null keys throw <code>IllegalArgumentException</code>. There is no <code>probe</code> or <code>holdsKey</code> in this question: write the search yourself.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q6" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q6">public class OpenAddressingMap&lt;K, V&gt; implements Map&lt;K, V&gt; {
+  private static class Entry&lt;K, V&gt; {
+    K key; V value; boolean deleted;   // deleted == true means tombstone
+  }
+  private Entry&lt;K, V&gt;[] slots;
+  private int size;   // live entries
+  private int used;   // live entries + tombstones
+
+  // GIVEN: private int indexFor(K key)   floorMod(key.hashCode(), slots.length)
+
+  private int find(K key) {
+    // TODO
+  }
+
+  public boolean containsKey(K key) {
+    // TODO
+  }
+
+  public V remove(K key) {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q6">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">6 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>find starts at <code>indexFor(key)</code></span></li><li><b>+0.5</b><span>find loops until it reaches an empty (null) slot</span></li><li><b>+1</b><span>find keeps going past tombstones (and past other keys): only null ends the search</span></li><li><b>+0.5</b><span>Checks <code>deleted</code> before comparing keys, so a tombstone never matches</span></li><li><b>+0.75</b><span>Steps with wraparound: <code>i = (i + 1) % slots.length</code></span></li><li><b>+0.25</b><span>Returns -1 after the loop</span></li><li><b>+0.5</b><span>containsKey throws for null and returns <code>find(key) != -1</code></span></li><li><b>+0.25</b><span>remove returns null when find gives -1</span></li><li><b>+0.75</b><span>remove marks the entry deleted (a tombstone), it does <i>not</i> set the slot to null</span></li><li><b>+0.5</b><span>remove decrements size and leaves used alone</span></li><li><b>+0.5</b><span>remove returns the removed value (saved before or after marking)</span></li><li class="pen"><b>−0.5</b><span>remove decrements <code>used</code> (the slot is still not null, so used must stay)</span></li><li class="pen"><b>−0.25</b><span>Compares keys with <code>==</code></span></li><li class="pen"><b>−0.5</b><span>Steps with <code>% size</code> or any length other than <code>slots.length</code></span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">private int find(K key) {
+  int i = indexFor(key);
+  while (slots[i] != null) {                 // only an empty slot ends the search
+    if (!slots[i].deleted &amp;&amp; slots[i].key.equals(key)) return i;
+    i = (i + 1) % slots.length;              // tombstone or other key: keep going
+  }
+  return -1;
+}
+
+public boolean containsKey(K key) {
+  if (key == null) throw new IllegalArgumentException();
+  return find(key) != -1;
+}
+
+public V remove(K key) {
+  if (key == null) throw new IllegalArgumentException();
+  int i = find(key);
+  if (i == -1) return null;
+  V old = slots[i].value;
+  slots[i].deleted = true;                   // tombstone, NOT null
+  size--;                                    // used stays the same
+  return old;
+}</pre><p>Setting the slot to null would cut the probe path: any key stored past it becomes unreachable. That is the whole reason tombstones exist. The loop always ends because the rehash rule keeps <code>used ≤ m/2</code>, so there is always a null slot.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q6" min="0" max="6" step="0.125" inputmode="decimal"> / 6</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q7</span><span class="q-pts">4 pts</span></div><p>Write the value iterator for the open-addressing map. It visits slots 0, 1, 2, … and returns the value of every <b>live</b> entry, skipping empty slots and tombstones. Use O(1) extra space. <code>hasNext</code> must not change what <code>next</code> will return. <code>next()</code> throws <code>NoSuchElementException</code> when no values are left.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q7" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q7">// inside OpenAddressingMap&lt;K, V&gt;, which has the field Entry&lt;K, V&gt;[] slots
+
+private class ValueIterator implements Iterator&lt;V&gt; {
+  // TODO fields
+
+  ValueIterator() {
+    // TODO
+  }
+
+  @Override
+  public boolean hasNext() {
+    // TODO
+  }
+
+  @Override
+  public V next() {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q7">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">4 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>Keeps a single slot index as the field (the slot the next value comes from)</span></li><li><b>+1</b><span>Skipping moves past slots that are null <b>or</b> tombstones, and stops at <code>slots.length</code></span></li><li><b>+0.5</b><span>The constructor skips to the first live entry</span></li><li><b>+0.5</b><span><code>hasNext</code> returns <code>i &lt; slots.length</code> (or an equivalent that has no side effect)</span></li><li><b>+0.75</b><span><code>next</code> returns that slot's <b>value</b> (not the Entry, not the key)</span></li><li><b>+0.5</b><span><code>next</code> then moves to the following live entry</span></li><li><b>+0.25</b><span><code>next</code> throws <code>NoSuchElementException</code> when no values are left</span></li><li class="pen"><b>−0.5</b><span>Copies the values into a list or array first (O(n) space). Grade the items for that approach, then apply this</span></li><li class="pen"><b>−0.5</b><span><code>hasNext</code> advances the index, so calling it twice skips a value</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">private class ValueIterator implements Iterator&lt;V&gt; {
+  private int i;                         // the slot next() returns from
+
+  ValueIterator() {
+    skip();                              // land on the first live entry
+  }
+
+  private void skip() {                  // move past empty slots AND tombstones
+    while (i &lt; slots.length &amp;&amp; (slots[i] == null || slots[i].deleted)) i++;
+  }
+
+  @Override
+  public boolean hasNext() {
+    return i &lt; slots.length;
+  }
+
+  @Override
+  public V next() {
+    if (!hasNext()) throw new NoSuchElementException();
+    V value = slots[i].value;
+    i++;
+    skip();
+    return value;
+  }
+}</pre></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q7" min="0" max="4" step="0.125" inputmode="decimal"> / 4</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q8</span><span class="q-pts">5 pts</span></div><p>Implement <code>remove(item)</code> for the indexed min-heap: it removes that item, wherever it is in the heap, in O(log n). Throw <code>IllegalArgumentException</code> for null and <code>NoSuchElementException</code> if the item isn't in the heap.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q8" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q8">public class IndexedArrayHeap&lt;T, P extends Comparable&lt;P&gt;&gt; {
+  private static class Entry&lt;T, P&gt; {
+    T item; P priority;
+  }
+  private Entry&lt;T, P&gt;[] heap;
+  private int size;
+  private Map&lt;T, Integer&gt; index;   // item -&gt; its slot in heap; a hash map
+
+  // GIVEN: private void swap(int i, int j)   swaps entries AND updates index for both
+  // GIVEN: private void swim(int i)
+  // GIVEN: private void sink(int i)
+
+  public void remove(T item) {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q8">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.25</b><span>Throws <code>IllegalArgumentException</code> for null</span></li><li><b>+0.5</b><span>Finds the slot with <code>index.get(item)</code></span></li><li><b>+0.5</b><span>Throws <code>NoSuchElementException</code> when the item isn't in the map</span></li><li><b>+0.75</b><span>Swaps the item with the last entry (<code>size - 1</code>)</span></li><li><b>+0.75</b><span>Removes the item from the index map</span></li><li><b>+0.5</b><span>Clears the last slot and decrements size</span></li><li><b>+0.5</b><span>Only repairs order when the removed slot is still inside the heap (<code>i &lt; size</code>)</span></li><li><b>+1.25</b><span>Calls <b>both</b> swim(i) and sink(i): the filler from the bottom can be too small for its new parent or too large for its new children. Award 0.5 for only one of them</span></li><li class="pen"><b>−1</b><span>Finds the item by scanning the heap array (O(n)) instead of using the map</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">public void remove(T item) {
+  if (item == null) throw new IllegalArgumentException();
+  Integer i = index.get(item);
+  if (i == null) throw new NoSuchElementException();
+  swap(i, size - 1);              // item moves to the last slot; swap updates the map
+  index.remove(item);             // item is gone from the map...
+  heap[size - 1] = null;          // ...and from the array
+  size--;
+  if (i &lt; size) {                 // a filler from the bottom now sits at i:
+    swim(i);                      //   it may be smaller than its new parent
+    sink(i);                      //   or larger than its new children
+  }
+}</pre><p>Why both: the last entry came from a different branch of the tree. Example priorities 1, 50, 2, 60, 90, 3, 6 (array order): removing 90 at slot 4 moves 6 there, and 6 is smaller than its new parent 50, so it has to swim. Removing an item near the top usually needs sink instead.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q8" min="0" max="5" step="0.125" inputmode="decimal"> / 5</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q9</span><span class="q-pts">3 pts</span></div><p>Write <code>partition</code> for quicksort using <b><code>a[lo]</code></b> as the pivot (not <code>a[hi]</code>). Afterwards everything left of the pivot is smaller than it, everything right of it is ≥ it, and you return the pivot's final index. Work in place in one left-to-right pass.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q9" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q9">// GIVEN: private static void swap(int[] a, int i, int j)
+
+private static int partition(int[] a, int lo, int hi) {
+  // TODO
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q9">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">3 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>Takes <code>pivot = a[lo]</code></span></li><li><b>+0.5</b><span>Starts the boundary at <code>lo</code> (the end of the &lt; region)</span></li><li><b>+0.5</b><span>Scans <code>j</code> from <code>lo + 1</code> through <code>hi</code> inclusive</span></li><li><b>+0.75</b><span>When <code>a[j] &lt; pivot</code>: grows the boundary and swaps a[j] into it</span></li><li><b>+0.5</b><span>After the loop, swaps the pivot from <code>lo</code> into the boundary slot</span></li><li><b>+0.25</b><span>Returns the pivot's final index</span></li><li class="pen"><b>−0.5</b><span>Partitions around <code>a[hi]</code> instead of <code>a[lo]</code>, which is not what was asked</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">private static int partition(int[] a, int lo, int hi) {
+  int pivot = a[lo];
+  int i = lo;                          // a[lo+1..i] &lt; pivot
+  for (int j = lo + 1; j &lt;= hi; j++) { // a[i+1..j-1] &gt;= pivot
+    if (a[j] &lt; pivot) {
+      i++;
+      swap(a, i, j);
+    }
+  }
+  swap(a, lo, i);                      // pivot goes between the two regions
+  return i;
+}</pre><p>Mirror of the course's Lomuto: the pivot sits at the left end, so the boundary starts <i>on</i> it and is incremented before each swap. Trace <code>[4, 7, 1, 9, 2]</code>: after the loop it is <code>[4, 1, 2, 9, 7]</code> with boundary 2, then the final swap gives <code>[2, 1, 4, 9, 7]</code> and returns 2.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q9" min="0" max="3" step="0.125" inputmode="decimal"> / 3</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q10</span><span class="q-pts">5 pts</span></div><p>Return a shortest path (fewest edges) from <code>start</code> to <code>target</code> in an undirected graph, as a list of vertices from <code>start</code> to <code>target</code> inclusive. If <code>start</code> equals <code>target</code>, return a list holding just <code>start</code>. If <code>target</code> can't be reached, return an empty list. Each vertex may enter your waiting structure at most once, and the graph must not be modified.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q10" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q10">// GIVEN: public class Graph&lt;V&gt; {
+//          public Iterable&lt;V&gt; neighbors(V v)    the vertices adjacent to v
+//        }
+
+// Assume start and target are vertices of g
+public static &lt;V&gt; List&lt;V&gt; shortestPath(Graph&lt;V&gt; g, V start, V target) {
+  // TODO
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q10">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>Creates a queue and enqueues start</span></li><li><b>+0.5</b><span>Keeps a parent (or came-from) map; start is in it, which marks it visited</span></li><li><b>+0.5</b><span>Loops while the queue is not empty, dequeuing from the front</span></li><li><b>+0.5</b><span>Iterates over <code>g.neighbors(v)</code></span></li><li><b>+0.75</b><span>Before enqueueing a neighbor: checks it is unvisited, records its parent, marks it visited</span></li><li><b>+0.5</b><span>Returns an empty list when target was never reached</span></li><li><b>+1</b><span>Builds the path by walking parent links back from target to start</span></li><li><b>+0.5</b><span>Reverses it so the list starts at start</span></li><li><b>+0.25</b><span>start == target gives a one-element list</span></li><li class="pen"><b>−1</b><span>Uses a stack or recursion instead of a queue: DFS does not give the fewest edges</span></li><li class="pen"><b>−0.5</b><span>Modifies the graph</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">public static &lt;V&gt; List&lt;V&gt; shortestPath(Graph&lt;V&gt; g, V start, V target) {
+  Map&lt;V, V&gt; parent = new HashMap&lt;&gt;();       // also the visited set
+  Queue&lt;V&gt; queue = new ArrayDeque&lt;&gt;();
+  parent.put(start, null);                  // start has no parent
+  queue.add(start);
+  while (!queue.isEmpty()) {
+    V v = queue.remove();
+    if (v.equals(target)) break;            // first time we reach it is by a shortest path
+    for (V w : g.neighbors(v)) {
+      if (!parent.containsKey(w)) {         // check AND mark before enqueueing
+        parent.put(w, v);
+        queue.add(w);
+      }
+    }
+  }
+  List&lt;V&gt; path = new ArrayList&lt;&gt;();
+  if (!parent.containsKey(target)) return path;   // unreachable: empty list
+  for (V v = target; v != null; v = parent.get(v)) path.add(v);   // walk back
+  Collections.reverse(path);                // start first
+  return path;
+}</pre><p>Stopping as soon as target is dequeued is optional. BFS reaches every vertex for the first time by a shortest route, so the parent links form shortest paths either way.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q10" min="0" max="5" step="0.125" inputmode="decimal"> / 5</label></div>
+  </section>
+
+  <div class="submit" id="submitBox">
+    <p class="note" id="submitNote">When you're done, submit. Your answers stay saved and editable afterward.</p>
+    <div class="row" id="submitRow"><button type="button" class="primary" id="submitBtn">Submit exam</button></div>
+    <div class="row" id="confirmRow" hidden>
+      <span class="note" id="confirmText">Submit now?</span>
+      <button type="button" class="primary" id="confirmBtn">Submit</button>
+      <button type="button" id="cancelBtn">Keep working</button>
+    </div>
+    <div id="doneRow" hidden>
+      <p class="tally">Self-graded: <b id="tally">0</b> / 38 <span class="note" id="tallyNote"></span></p>
+      <p class="note">Score each question in the box under its rubric. For a second opinion, copy the grading prompt into Claude (or another AI) or send the answers file to a friend.</p>
+      <div class="row" style="margin-top:8px">
+        <button type="button" id="copyPromptBtn">Copy grading prompt</button>
+        <button type="button" id="downloadMdBtn">Download answers (.md)</button>
+        <span class="note" id="copyMsg"></span>
+      </div>
+      <textarea id="copyBox" hidden readonly aria-label="Grading prompt"></textarea>
+    </div>
+  </div>
+
+  <div class="panel" aria-labelledby="bkH">
+    <h2 id="bkH">Backup</h2>
+    <p class="small">Answers live only in this browser. A backup file holds every attempt at this exam; importing one merges it in (the newer copy of an attempt wins), so it is safe to import twice.</p>
+    <div class="row">
+      <button type="button" id="exportBtn">Download backup</button>
+      <label class="file-btn"><button type="button" onclick="this.nextElementSibling.click()">Import backup</button><input type="file" id="importInput" accept="application/json,.json"></label>
+    </div>
+  </div>
+
+  
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script type="application/json" id="exam-spec">{"id": "mock-4", "title": "Mock Test 4", "minutes": 90, "total": 38.0, "questions": [{"id": "Q1", "pts": 2.5, "kind": "text", "exam": true, "prompt": "Person has fields String name, int age and long id. Its equals returns true when name and age are equal; it ignores id. For each hashCode below, say whether it obeys the hashCode contract, and if it does, whether it is a good choice for our HashMap. One sentence each.\n\n\n- return age;\n\n- return Objects.hash(name, age, id);\n\n- return 0;\n\n- return (int) (Math.random() * 1000);\n\n- return Objects.hash(name, age);", "stub": "", "rubric": [[0.5, "(a) Legal: equal Persons have equal ages. Weak: everyone with the same age collides, so buckets get long"], [0.5, "(b) Illegal: two equal Persons with different ids get different hash codes, so lookups miss"], [0.5, "(c) Legal but terrible: every key lands in one bucket, so get and put become O(n)"], [0.5, "(d) Illegal: not consistent, the same object gives a different hash each call, so even the stored object can't be found"], [0.5, "(e) Legal and good: uses exactly the fields equals uses and spreads keys out"]], "pen": [[-0.125, "Right verdict with no reason or a wrong reason. Award the item, then apply this penalty once"]], "reference": "The test for legal is one question: can two objects that are equals ever get different hash codes? (b) can, through id; (d) can, even for one object. The test for good is how well unequal keys spread out: (c) puts everything in one bucket, (a) groups by age, (e) mixes both fields. Rule of thumb: hash exactly the fields equals compares."}, {"id": "Q2", "pts": 2.5, "kind": "text", "exam": true, "prompt": "In an indexed min-heap, a student's swap(i, j) exchanges the two entries but only runs index.put(heap[i].item, i); it never updates the map for the entry that moved to j.\n\n(a) Starting from empty, give a short sequence of operations after which changePriority changes the wrong item's priority, and say which item it changes.\n\n(b) What is the running time of changePriority with a correct map, and what would it be if the heap had no map at all?\n\n(c) When the new priority is smaller than the old one, why is swim enough, with no sink?", "stub": "", "rubric": [[0.5, "(a) Explains the cause: the item that moved to j keeps its old slot number in the map"], [0.75, "(a) A concrete sequence that shows it, e.g. insert A:5, insert B:3 (B swims, swap(1, 0) leaves B→1 in the map), then changePriority(B, 9) changes A, which is now in slot 1"], [0.5, "(b) O(log n) with the map (O(1) expected lookup, then one swim or sink); O(n) without it, because finding the item is a scan"], [0.75, "(c) Its children were ≥ the old priority, which is ≥ the new one, so the order below it still holds; only the edge to its parent can break"]], "pen": [[-0.125, "The sequence in (a) depends on which index the student's swap updates and gets it backwards, but the idea is right"]], "reference": "(a) insert A:5 → slot 0, map A→0. insert B:3 → slot 1, then B swims with swap(1, 0). Now heap is B, A. The broken swap updates only heap[1].item = A→1, so the map still says B→1. changePriority(B, 9) looks up slot 1 and changes A. (If the swap is called as swap(0, 1) it updates B and leaves A wrong instead: either way one item points at the other's slot.)\n\n(b) O(log n) vs O(n). (c) Before the change, each child ≥ old priority. The new priority is smaller, so each child is still ≥ it. Only the parent can now be larger."}, {"id": "Q3", "pts": 2, "kind": "text", "exam": true, "prompt": "The course's open-addressing map: linear probing, Integer keys hash to themselves, 7 slots, tombstones. After storing a new key it rehashes if used > m/2: to the next prime, 17, if also size > m/2, otherwise at the same size. Rehash reinserts live entries in old-slot order. Write tables as slot:key pairs and mark tombstones with †.\n\nFrom empty: put 3, put 10, put 17, remove 10.\n\n(a) List, in order, the slots that get(17) looks at, and the slots that get(10) looks at.\n\n(b) Then put 24, put 31. Where does 24 go? Give the final table with size and used.", "stub": "", "rubric": [[0.5, "(a) get(17): 3, 4†, 5 (found). It does not stop at the tombstone in slot 4"], [0.5, "(a) get(10): 3, 4†, 5, 6 (empty, so not found). Only an empty slot ends the search"], [0.5, "(b) 24 probes 3, 4†, 5, 6 (empty) and goes back to the tombstone in slot 4; used stays 3"], [0.5, "(b) 31 lands in slot 6, so used = size = 4 > 3.5 and the table grows to 17. Final: 0:17, 3:3, 7:24, 14:31 with size = used = 4"]], "pen": [[-0.25, "Gives values in an array with no slot numbers, or a table of the wrong length, so the grader can't tell which slot holds what"]], "reference": "put 3:  slot 3                              used 1  size 1\nput 10: 3 taken → 4                          used 2  size 2\nput 17: 3, 4 taken → 5                       used 3  size 3   (3 > 3.5? no)\nremove 10: slot 4 = 10†                      used 3  size 2\n\n(a) get(17): 3 (key 3), 4 (†, keep going), 5 → found\n    get(10): 3, 4 (†, keep going), 5 (key 17), 6 (empty) → not found\n\n(b) put 24: 3, 4 (†, remember), 5, 6 empty → store in 4    used 3  size 3\n    put 31: 3, 4, 5, 6 empty → store in 6                   used 4  size 4\n            used 4 > 3.5 and size 4 > 3.5 → grow to 17\n    rehash in old-slot order: 3→3, 24→7, 17→0, 31→14\n    final m=17: 0:17  3:3  7:24  14:31      size 4  used 4"}, {"id": "Q4", "pts": 4, "kind": "code", "exam": true, "prompt": "Implement insert and the swim it calls for the array-based min-heap. Null values throw IllegalArgumentException. When the array is full, double its length before inserting.", "stub": "public class ArrayHeap<T extends Comparable<T>> {\n  private T[] heap;   // heap[0..size-1], root at 0\n  private int size;\n\n  // GIVEN: private int compare(T a, T b)     negative if a has higher priority\n  // GIVEN: private int parent(int i)         (i - 1) / 2\n  // GIVEN: private void swap(int i, int j)\n\n  public void insert(T x) {\n    // TODO\n  }\n\n  private void swim(int i) {\n    // TODO\n  }\n}", "rubric": [[0.25, "Throws IllegalArgumentException for null"], [0.5, "Grows when size == heap.length (e.g. Arrays.copyOf(heap, 2 * heap.length)), before writing"], [0.5, "Places x at index size, increments size, and swims from the new last index"], [0.75, "swim loops while i > 0 (the root has no parent)"], [0.75, "Continues only while the node is smaller than its parent: compare(heap[i], heap[parent(i)]) < 0"], [0.75, "Swaps with the parent and moves up: i = parent(i)"], [0.5, "Stops as soon as the node is not smaller than its parent (no extra swaps)"]], "pen": [[-0.5, "Compare is backwards (swims while the node is larger): a coherent max-heap swim. Award the items in mirror image, then apply this"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "public void insert(T x) {\n  if (x == null) throw new IllegalArgumentException();\n  if (size == heap.length) heap = Arrays.copyOf(heap, 2 * heap.length);  // full: grow\n  heap[size] = x;\n  size++;\n  swim(size - 1);\n}\n\nprivate void swim(int i) {\n  while (i > 0 && compare(heap[i], heap[parent(i)]) < 0) {  // smaller than my parent\n    swap(i, parent(i));\n    i = parent(i);\n  }\n}\n\nSay the loop as a sentence first: \"while I'm not the root and I'm smaller than my parent, swap up.\" Translate compare(a, b) < 0 as a < b."}, {"id": "Q5", "pts": 4, "kind": "code", "exam": true, "prompt": "Implement put for the course's separate-chaining HashMap. If the key is already there, replace its value and return the old value. Otherwise add it at the head of its bucket and return null. After adding a new key, call rehash() if the load factor size / buckets.length is now above 0.75. Null keys or values throw IllegalArgumentException.", "stub": "public class HashMap<K, V> implements Map<K, V> {\n  private static class Node<K, V> {\n    K key; V value; Node<K, V> next;\n    Node(K key, V value) { this.key = key; this.value = value; }\n  }\n  private Node<K, V>[] buckets;\n  private int size;\n\n  // GIVEN: private void rehash()   grows buckets and reinserts every node\n\n  public V put(K key, V value) {\n    // TODO\n  }\n}", "rubric": [[0.25, "Throws IllegalArgumentException for a null key or value"], [0.5, "Finds the bucket with Math.floorMod(key.hashCode(), buckets.length)"], [0.5, "Walks that bucket's chain until null"], [1, "On an equals match: saves the old value, replaces it, returns the old value (size unchanged)"], [0.75, "Otherwise inserts a new node at the head: node.next = buckets[i]; buckets[i] = node;"], [0.25, "Increments size only for a new key"], [0.5, "Checks the load factor with real division after adding, and calls rehash()"], [0.25, "Returns null for a new key"]], "pen": [[-0.25, "Integer division size / buckets.length, which is 0 until the table is full, so it never rehashes in time"], [-0.25, "Compares keys with =="], [-0.25, "Uses % without floorMod"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "public V put(K key, V value) {\n  if (key == null || value == null) throw new IllegalArgumentException();\n  int i = Math.floorMod(key.hashCode(), buckets.length);\n  for (Node<K, V> curr = buckets[i]; curr != null; curr = curr.next) {\n    if (curr.key.equals(key)) {          // key exists: replace\n      V old = curr.value;\n      curr.value = value;\n      return old;\n    }\n  }\n  Node<K, V> node = new Node<>(key, value);\n  node.next = buckets[i];                // new node goes at the head: O(1)\n  buckets[i] = node;\n  size++;\n  if ((double) size / buckets.length > 0.75) rehash();   // double, not int, division\n  return null;\n}"}, {"id": "Q6", "pts": 6, "kind": "code", "exam": true, "prompt": "For the course's open-addressing map, write a private helper find(key) that returns the slot holding a live entry for key, or -1 if there is none. Then use it to implement containsKey and remove. remove returns the removed value, or null if the key wasn't there. Null keys throw IllegalArgumentException. There is no probe or holdsKey in this question: write the search yourself.", "stub": "public class OpenAddressingMap<K, V> implements Map<K, V> {\n  private static class Entry<K, V> {\n    K key; V value; boolean deleted;   // deleted == true means tombstone\n  }\n  private Entry<K, V>[] slots;\n  private int size;   // live entries\n  private int used;   // live entries + tombstones\n\n  // GIVEN: private int indexFor(K key)   floorMod(key.hashCode(), slots.length)\n\n  private int find(K key) {\n    // TODO\n  }\n\n  public boolean containsKey(K key) {\n    // TODO\n  }\n\n  public V remove(K key) {\n    // TODO\n  }\n}", "rubric": [[0.5, "find starts at indexFor(key)"], [0.5, "find loops until it reaches an empty (null) slot"], [1, "find keeps going past tombstones (and past other keys): only null ends the search"], [0.5, "Checks deleted before comparing keys, so a tombstone never matches"], [0.75, "Steps with wraparound: i = (i + 1) % slots.length"], [0.25, "Returns -1 after the loop"], [0.5, "containsKey throws for null and returns find(key) != -1"], [0.25, "remove returns null when find gives -1"], [0.75, "remove marks the entry deleted (a tombstone), it does not set the slot to null"], [0.5, "remove decrements size and leaves used alone"], [0.5, "remove returns the removed value (saved before or after marking)"]], "pen": [[-0.5, "remove decrements used (the slot is still not null, so used must stay)"], [-0.25, "Compares keys with =="], [-0.5, "Steps with % size or any length other than slots.length"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "private int find(K key) {\n  int i = indexFor(key);\n  while (slots[i] != null) {                 // only an empty slot ends the search\n    if (!slots[i].deleted && slots[i].key.equals(key)) return i;\n    i = (i + 1) % slots.length;              // tombstone or other key: keep going\n  }\n  return -1;\n}\n\npublic boolean containsKey(K key) {\n  if (key == null) throw new IllegalArgumentException();\n  return find(key) != -1;\n}\n\npublic V remove(K key) {\n  if (key == null) throw new IllegalArgumentException();\n  int i = find(key);\n  if (i == -1) return null;\n  V old = slots[i].value;\n  slots[i].deleted = true;                   // tombstone, NOT null\n  size--;                                    // used stays the same\n  return old;\n}\n\nSetting the slot to null would cut the probe path: any key stored past it becomes unreachable. That is the whole reason tombstones exist. The loop always ends because the rehash rule keeps used ≤ m/2, so there is always a null slot."}, {"id": "Q7", "pts": 4, "kind": "code", "exam": true, "prompt": "Write the value iterator for the open-addressing map. It visits slots 0, 1, 2, … and returns the value of every live entry, skipping empty slots and tombstones. Use O(1) extra space. hasNext must not change what next will return. next() throws NoSuchElementException when no values are left.", "stub": "// inside OpenAddressingMap<K, V>, which has the field Entry<K, V>[] slots\n\nprivate class ValueIterator implements Iterator<V> {\n  // TODO fields\n\n  ValueIterator() {\n    // TODO\n  }\n\n  @Override\n  public boolean hasNext() {\n    // TODO\n  }\n\n  @Override\n  public V next() {\n    // TODO\n  }\n}", "rubric": [[0.5, "Keeps a single slot index as the field (the slot the next value comes from)"], [1, "Skipping moves past slots that are null or tombstones, and stops at slots.length"], [0.5, "The constructor skips to the first live entry"], [0.5, "hasNext returns i < slots.length (or an equivalent that has no side effect)"], [0.75, "next returns that slot's value (not the Entry, not the key)"], [0.5, "next then moves to the following live entry"], [0.25, "next throws NoSuchElementException when no values are left"]], "pen": [[-0.5, "Copies the values into a list or array first (O(n) space). Grade the items for that approach, then apply this"], [-0.5, "hasNext advances the index, so calling it twice skips a value"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "private class ValueIterator implements Iterator<V> {\n  private int i;                         // the slot next() returns from\n\n  ValueIterator() {\n    skip();                              // land on the first live entry\n  }\n\n  private void skip() {                  // move past empty slots AND tombstones\n    while (i < slots.length && (slots[i] == null || slots[i].deleted)) i++;\n  }\n\n  @Override\n  public boolean hasNext() {\n    return i < slots.length;\n  }\n\n  @Override\n  public V next() {\n    if (!hasNext()) throw new NoSuchElementException();\n    V value = slots[i].value;\n    i++;\n    skip();\n    return value;\n  }\n}"}, {"id": "Q8", "pts": 5, "kind": "code", "exam": true, "prompt": "Implement remove(item) for the indexed min-heap: it removes that item, wherever it is in the heap, in O(log n). Throw IllegalArgumentException for null and NoSuchElementException if the item isn't in the heap.", "stub": "public class IndexedArrayHeap<T, P extends Comparable<P>> {\n  private static class Entry<T, P> {\n    T item; P priority;\n  }\n  private Entry<T, P>[] heap;\n  private int size;\n  private Map<T, Integer> index;   // item -> its slot in heap; a hash map\n\n  // GIVEN: private void swap(int i, int j)   swaps entries AND updates index for both\n  // GIVEN: private void swim(int i)\n  // GIVEN: private void sink(int i)\n\n  public void remove(T item) {\n    // TODO\n  }\n}", "rubric": [[0.25, "Throws IllegalArgumentException for null"], [0.5, "Finds the slot with index.get(item)"], [0.5, "Throws NoSuchElementException when the item isn't in the map"], [0.75, "Swaps the item with the last entry (size - 1)"], [0.75, "Removes the item from the index map"], [0.5, "Clears the last slot and decrements size"], [0.5, "Only repairs order when the removed slot is still inside the heap (i < size)"], [1.25, "Calls both swim(i) and sink(i): the filler from the bottom can be too small for its new parent or too large for its new children. Award 0.5 for only one of them"]], "pen": [[-1, "Finds the item by scanning the heap array (O(n)) instead of using the map"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "public void remove(T item) {\n  if (item == null) throw new IllegalArgumentException();\n  Integer i = index.get(item);\n  if (i == null) throw new NoSuchElementException();\n  swap(i, size - 1);              // item moves to the last slot; swap updates the map\n  index.remove(item);             // item is gone from the map...\n  heap[size - 1] = null;          // ...and from the array\n  size--;\n  if (i < size) {                 // a filler from the bottom now sits at i:\n    swim(i);                      //   it may be smaller than its new parent\n    sink(i);                      //   or larger than its new children\n  }\n}\n\nWhy both: the last entry came from a different branch of the tree. Example priorities 1, 50, 2, 60, 90, 3, 6 (array order): removing 90 at slot 4 moves 6 there, and 6 is smaller than its new parent 50, so it has to swim. Removing an item near the top usually needs sink instead."}, {"id": "Q9", "pts": 3, "kind": "code", "exam": true, "prompt": "Write partition for quicksort using a[lo] as the pivot (not a[hi]). Afterwards everything left of the pivot is smaller than it, everything right of it is ≥ it, and you return the pivot's final index. Work in place in one left-to-right pass.", "stub": "// GIVEN: private static void swap(int[] a, int i, int j)\n\nprivate static int partition(int[] a, int lo, int hi) {\n  // TODO\n}", "rubric": [[0.5, "Takes pivot = a[lo]"], [0.5, "Starts the boundary at lo (the end of the < region)"], [0.5, "Scans j from lo + 1 through hi inclusive"], [0.75, "When a[j] < pivot: grows the boundary and swaps a[j] into it"], [0.5, "After the loop, swaps the pivot from lo into the boundary slot"], [0.25, "Returns the pivot's final index"]], "pen": [[-0.5, "Partitions around a[hi] instead of a[lo], which is not what was asked"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "private static int partition(int[] a, int lo, int hi) {\n  int pivot = a[lo];\n  int i = lo;                          // a[lo+1..i] < pivot\n  for (int j = lo + 1; j <= hi; j++) { // a[i+1..j-1] >= pivot\n    if (a[j] < pivot) {\n      i++;\n      swap(a, i, j);\n    }\n  }\n  swap(a, lo, i);                      // pivot goes between the two regions\n  return i;\n}\n\nMirror of the course's Lomuto: the pivot sits at the left end, so the boundary starts on it and is incremented before each swap. Trace [4, 7, 1, 9, 2]: after the loop it is [4, 1, 2, 9, 7] with boundary 2, then the final swap gives [2, 1, 4, 9, 7] and returns 2."}, {"id": "Q10", "pts": 5, "kind": "code", "exam": true, "prompt": "Return a shortest path (fewest edges) from start to target in an undirected graph, as a list of vertices from start to target inclusive. If start equals target, return a list holding just start. If target can't be reached, return an empty list. Each vertex may enter your waiting structure at most once, and the graph must not be modified.", "stub": "// GIVEN: public class Graph<V> {\n//          public Iterable<V> neighbors(V v)    the vertices adjacent to v\n//        }\n\n// Assume start and target are vertices of g\npublic static <V> List<V> shortestPath(Graph<V> g, V start, V target) {\n  // TODO\n}", "rubric": [[0.5, "Creates a queue and enqueues start"], [0.5, "Keeps a parent (or came-from) map; start is in it, which marks it visited"], [0.5, "Loops while the queue is not empty, dequeuing from the front"], [0.5, "Iterates over g.neighbors(v)"], [0.75, "Before enqueueing a neighbor: checks it is unvisited, records its parent, marks it visited"], [0.5, "Returns an empty list when target was never reached"], [1, "Builds the path by walking parent links back from target to start"], [0.5, "Reverses it so the list starts at start"], [0.25, "start == target gives a one-element list"]], "pen": [[-1, "Uses a stack or recursion instead of a queue: DFS does not give the fewest edges"], [-0.5, "Modifies the graph"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "public static <V> List<V> shortestPath(Graph<V> g, V start, V target) {\n  Map<V, V> parent = new HashMap<>();       // also the visited set\n  Queue<V> queue = new ArrayDeque<>();\n  parent.put(start, null);                  // start has no parent\n  queue.add(start);\n  while (!queue.isEmpty()) {\n    V v = queue.remove();\n    if (v.equals(target)) break;            // first time we reach it is by a shortest path\n    for (V w : g.neighbors(v)) {\n      if (!parent.containsKey(w)) {         // check AND mark before enqueueing\n        parent.put(w, v);\n        queue.add(w);\n      }\n    }\n  }\n  List<V> path = new ArrayList<>();\n  if (!parent.containsKey(target)) return path;   // unreachable: empty list\n  for (V v = target; v != null; v = parent.get(v)) path.add(v);   // walk back\n  Collections.reverse(path);                // start first\n  return path;\n}\n\nStopping as soon as target is dequeued is optional. BFS reaches every vertex for the first time by a shortest route, so the parent links form shortest paths either way."}]}</script>
+<script src="../assets/store.js"></script>
+<script src="../assets/exam.js"></script>
+</body>
+</html>

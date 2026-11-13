@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CS226 Exam 3 Practice</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="bar">
+  <div class="bar-in">
+    <div>
+      <div class="bar-title">CS226 Exam 3 practice</div>
+      <div class="bar-sub">Heaps · hashing · sorting · graphs</div>
+    </div>
+  </div>
+</div>
+<main class="wrap">
+  <div class="banner err" id="storageBanner" hidden><span class="msg">This browser is blocking storage (for example a private window), so answers won't be kept after you close the tab. Open the site in a normal window.</span></div>
+
+  <div class="cover">
+    <h1>Three timed mock exams, graded like the real thing</h1>
+    <ul>
+      <li>Each exam is 38 points in 90 minutes: short answers, a trace, and coding questions in Java, with GIVEN helpers like the real exam.</li>
+      <li>Your answers save automatically in this browser. Come back any time; nothing is sent anywhere.</li>
+      <li>After you submit, rubrics and reference solutions unlock, and you score yourself item by item. You can also copy a ready-made grading prompt for an AI.</li>
+      <li>New here? Read <a href="https://github.com/ramlukn/cs226-exam3-practice/blob/main/docs/using-the-site.md">how to use the site</a> and <a href="https://github.com/ramlukn/cs226-exam3-practice/blob/main/docs/grading.md">how to grade</a>.</li>
+    </ul>
+  </div>
+
+  <section class="part" aria-labelledby="exH">
+    <div class="part-h"><h2 id="exH">Exams</h2><span>best taken in order</span></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="part" aria-labelledby="hiH">
+    <div class="part-h"><h2 id="hiH">Your attempts</h2><span>on this browser</span></div>
+    <p class="small" id="historyEmpty">No attempts yet.</p>
+    <table class="hist" id="historyTable" hidden>
+      <thead><tr><th>Exam</th><th>#</th><th>Started</th><th>Time</th><th>Status</th><th>Self-score</th></tr></thead>
+      <tbody id="history"></tbody>
+    </table>
+  </section>
+
+  <div class="panel" aria-labelledby="bkH">
+    <h2 id="bkH">Backup and moving devices</h2>
+    <p class="small">Everything is stored in this browser only. Download a backup to keep a copy or to continue on another computer, then import it there. Importing merges: it never deletes attempts.</p>
+    <div class="row">
+      <button type="button" id="exportAllBtn">Download backup of all exams</button>
+      <label class="file-btn"><button type="button" onclick="this.nextElementSibling.click()">Import backup</button><input type="file" id="importAllInput" accept="application/json,.json"></label>
+      <span class="spacer"></span>
+      <button type="button" id="resetAllBtn" class="danger">Erase all saved answers</button>
+    </div>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script type="application/json" id="site-spec">[{"id": "mock-3", "title": "Mock Test 3", "topics": "Median-of-three quicksort, equals/hashCode, open-addressing trace, isMinHeap, chained get, probe and put, sink, indexed heap, key iterator, BFS within k hops", "minutes": 90, "total": 38.0, "count": 10, "drills": 8, "questionIds": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10"]}, {"id": "mock-4", "title": "Mock Test 4", "topics": "Judging hashCode choices, indexed-heap swap bugs, tombstone trace, insert and swim, chained put, open-addressing find and remove, value iterator, indexed remove, partition, BFS shortest path", "minutes": 90, "total": 38.0, "count": 10, "drills": 0, "questionIds": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10"]}, {"id": "mock-5", "title": "Mock Test 5", "topics": "Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap remove, chained remove, open-addressing rehash, isConnected, indexed insert and removeBest, quickselect, BFS levels", "minutes": 90, "total": 38.0, "count": 10, "drills": 0, "questionIds": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10"]}]</script>
+<script src="assets/store.js"></script>
+<script src="assets/home.js"></script>
+</body>
+</html>
