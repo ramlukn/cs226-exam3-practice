@@ -11,15 +11,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = "https://github.com/ramlukn/cs226-exam3-practice/blob/main/docs/"
 
 EXAMS = [
-    dict(id="mock-3", title="Mock Test 3", minutes=90,
-         topics="Median-of-three quicksort, equals/hashCode, open-addressing trace, isMinHeap, chained get, probe and put, sink, indexed heap, key iterator, BFS within k hops"),
-    dict(id="mock-4", title="Mock Test 4", minutes=90,
-         topics="Judging hashCode choices, indexed-heap swap bugs, tombstone trace, insert and swim, chained put, open-addressing find and remove, value iterator, indexed remove, partition, BFS shortest path"),
-    dict(id="mock-5", title="Mock Test 5", minutes=90,
-         topics="Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap remove, chained remove, open-addressing rehash, isConnected, indexed insert and removeBest, quickselect, BFS levels"),
-    dict(id="mock-6", title="Mock Test 6", minutes=90,
+    dict(id="test3", title="Test 3 Practice Exam", minutes=90,
          subtitle="heaps, priority queues and hashing",
-         topics="Focused on the new Test 3 material: the iterator contract, Big-O across structures, tombstone reuse and same-size rehash, reverse key iterator, chained rehash, open-addressing put without probe, heapify constructor, k-way merge with a heap, indexed PQ swap and changePriority, in-place heapsort"),
+         topics="Heap insert and remove traces, heapify and heapsort trace, chaining and rehash trace, open-addressing tombstone trace, equals and hashCode, open-addressing get and remove, chained remove, heap remove and sink, indexed PQ remove(item), top k with a PriorityQueue"),
 ]
 
 FONTS = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">\n'
@@ -231,7 +225,7 @@ def index_page(cards):
   <div class="bar-in">
     <div>
       <div class="bar-title">CS226 Exam 3 practice</div>
-      <div class="bar-sub">Heaps · hashing · sorting · graphs</div>
+      <div class="bar-sub">Priority queues · heaps · hashing</div>
     </div>
   </div>
 </div>
@@ -239,9 +233,9 @@ def index_page(cards):
   <div class="banner err" id="storageBanner" hidden><span class="msg">This browser is blocking storage (for example a private window), so answers won't be kept after you close the tab. Open the site in a normal window.</span></div>
 
   <div class="cover">
-    <h1>Four timed mock exams, graded like the real thing</h1>
+    <h1>A timed practice exam, graded like the real thing</h1>
     <ul>
-      <li>Each exam is 38 points in 90 minutes: short answers, a trace, and coding questions in Java, with GIVEN helpers like the real exam.</li>
+      <li>The exam is 38 points in 90 minutes: short answers, a trace, and coding questions in Java, with GIVEN helpers like the real exam.</li>
       <li>Your answers save automatically in this browser. Come back any time; nothing is sent anywhere.</li>
       <li>After you submit, rubrics and reference solutions unlock, and you score yourself item by item. You can also copy a ready-made grading prompt for an AI.</li>
       <li>New here? Read <a href="{DOCS}using-the-site.md">how to use the site</a> and <a href="{DOCS}grading.md">how to grade</a>.</li>
@@ -249,7 +243,7 @@ def index_page(cards):
   </div>
 
   <section class="part" aria-labelledby="exH">
-    <div class="part-h"><h2 id="exH">Exams</h2><span>best taken in order</span></div>
+    <div class="part-h"><h2 id="exH">Exams</h2><span>matches the Test 3 scope</span></div>
     <div class="cards" id="cards"></div>
   </section>
 
@@ -296,6 +290,7 @@ def main():
         total = sum(q["pts"] for q in exam_qs)
         assert abs(total - 38) < 1e-9, (meta["id"], total)
         out = ROOT / "exams" / (meta["id"] + ".html")
+        out.parent.mkdir(exist_ok=True)
         out.write_text(exam_page(meta, exam_qs, drills, refs))
         print("wrote", out.relative_to(ROOT), "-", len(exam_qs), "questions,", len(drills), "drills")
         cards.append(dict(id=meta["id"], title=meta["title"], topics=meta["topics"], minutes=meta["minutes"],

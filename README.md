@@ -1,23 +1,18 @@
 # CS226 Exam 3 practice
 
-Four timed mock exams for CS226 (Data Structures, Java) Exam 3: heaps, priority queues, hashing, sorting and graphs. They follow the shape and grading style of the real exams: 38 points in 90 minutes, short answers and a trace, then coding questions with GIVEN helpers.
+A timed practice exam for CS226 (Data Structures, Java) Test 3, written for the announced scope: the test covers Dynamic Array through Open Addressing, with the focus on the material not covered in earlier tests (priority queues, binary heaps, heapsort, the indexed priority queue, hashing, separate chaining, open addressing). It follows the shape and grading style of the real exams: 38 points in 90 minutes, short answers and traces, then coding questions with GIVEN helpers.
 
 **Open the site: https://ramlukn.github.io/cs226-exam3-practice/**
 
 Nothing to install and no account. Your answers save automatically in your own browser.
 
-## The exams
+## The exam
 
 | Exam | Covers |
 |---|---|
-| Mock Test 3 | Median-of-three quicksort, the equals/hashCode rule, an open-addressing trace, `isMinHeap`, chained `get`, open-addressing `probe` and `put`, `sink`, the indexed heap's `swap` and `changePriority`, a chained key iterator, BFS within k hops. Plus 8 untimed extra drills. |
-| Mock Test 4 | Judging `hashCode` choices, an indexed-heap swap bug, a tombstone trace, heap `insert` and `swim`, chained `put`, open-addressing `find` and `remove`, a value iterator, indexed-heap `remove(item)`, partition with `a[lo]` as pivot, BFS shortest path. |
-| Mock Test 5 | Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap `remove`, chained `remove`, open-addressing `rehash`, `isConnected`, indexed-heap `insert` and `removeBest`, quickselect, BFS levels. |
-| Mock Test 6 | **Matches the official Test 3 scope.** The iterator contract, Big-O across structures, a tombstone-reuse and same-size-rehash trace, a reverse-order key iterator, chained `rehash`, open-addressing `put` without a `probe` helper, an O(n) heapify constructor, merging k sorted lists with a heap, an indexed priority queue's `swap` and `changePriority`, in-place heapsort. |
+| Test 3 Practice Exam | Heap insert and remove traces, a heapify and heapsort trace, a chaining and rehash trace, an open-addressing tombstone trace, `equals` and `hashCode`, open-addressing `get` and `remove`, chained `remove`, heap `remove` and `sink`, the indexed priority queue's `remove(item)`, top k with a `PriorityQueue`. |
 
-Each one is 10 questions worth 38 points. Take them in order if you can; each targets mistakes that are common on the one before.
-
-**Scope note.** Test 3 covers Dynamic Array through Open Addressing, with the focus on the newer material (priority queues, heaps, hashing). Mocks 3–5 were written before that was announced, so a few of their questions are on quicksort or graph search, which won't be on Test 3: Mock 3 Q1 and Q10 (and drills D1 and D6), Mock 4 Q9 and Q10, Mock 5 Q1, Q7, Q9 and Q10. Skip those, or treat them as extra practice.
+10 questions, 38 points. The earlier mock exams were removed because they included quicksort and graph search, which aren't on Test 3; they are still in the git history.
 
 ## How it works
 

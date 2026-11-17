@@ -6,12 +6,12 @@ The site is static HTML, built by one Python script from the files in `source/`.
 
 ```
 index.html               home page (built)
-exams/mock-N.html        exam pages (built)
+exams/<id>.html          exam pages (built)
 assets/site.css          styles for every page
 assets/store.js          saving: local storage, attempts, backup import/export
 assets/exam.js           exam page: editor, timer, autosave, submit, grading export
 assets/home.js           home page: exam cards, attempt history, backups
-source/mock-N/
+source/<id>/
   questions.py           prompts, starter code, rubrics, penalties, notes
   java/*.java            reference solutions + randomized tests
 tools/build.py           builds index.html and exams/*.html
@@ -66,7 +66,7 @@ Lines containing `comparisons++` are dropped from what students see (they're tes
 
 ## Adding an exam
 
-1. Copy a `source/mock-N` folder, rewrite `questions.py`, and write the reference solutions with tests in `java/`.
+1. Copy the `source/test3` folder to a new id, add it to `EXAMS` in `tools/build.py`, rewrite `questions.py`, and write the reference solutions with tests in `java/`.
 2. Add the exam to `EXAMS` at the top of `tools/build.py`.
 3. Run the tests and the build, and commit everything including the built HTML.
 
@@ -75,7 +75,7 @@ Lines containing `comparisons++` are dropped from what students see (they're tes
 Each exam's attempts are stored under the local-storage key `cs226-practice:v1:<exam id>`:
 
 ```json
-{ "v": 1, "exam": "mock-4", "currentId": "a_...",
+{ "v": 1, "exam": "test3", "currentId": "a_...",
   "attempts": [ { "id": "a_...", "createdAt": 0, "updatedAt": 0,
                   "answers": { "Q1": "..." }, "scores": { "Q1": 2.5 },
                   "elapsed": 1234, "submitted": true, "submittedAt": "2026-..." } ] }

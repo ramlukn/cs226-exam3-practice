@@ -90,7 +90,7 @@ Swapping like this works best when you've both taken the same exam.
 
 ## What the score means
 
-38 points, like the real exam. As a rough guide for these mocks:
+38 points, like the real exam. As a rough guide:
 
 | Score | Reading |
 |---|---|
