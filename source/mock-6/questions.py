@@ -22,12 +22,21 @@ public Integer next() {
 }</pre>"""),
 
 dict(id="Q2", pts=2.5, kind="text",
- prompt="""<p>Undirected graph with edges A–B, A–C, B–D, C–D. (a) A student's BFS from A marks a vertex visited when it is <b>dequeued</b>, not when it is enqueued, and skips a dequeued vertex that's already visited. Which vertex gets enqueued twice, and from where? (b) Does that BFS still find correct fewest-edge distances? What does the mistake cost? (c) Why can't DFS find fewest-edge distances? Give a small graph and a DFS order where it gets one wrong.</p>""",
- rubric=[(0.75, "(a) D: enqueued once from B and again from C, because neither saw it marked"),
-         (0.75, "(b) The distances are still right (the first copy of D dequeued has the smallest distance, the second is skipped), but the queue can hold duplicates: up to O(E) entries instead of O(V), and extra work"),
-         (1, "(c) DFS goes deep along one path, so it can reach a vertex by a long path first. Example: triangle A–B, B–C, A–C; DFS from A visits B then C through B, giving C distance 2, but the edge A–C makes it 1")],
- pen=[(-0.125, "Says DFS is wrong without an example or a reason")],
- ref_html="""<p>(a) Dequeue A, enqueue B and C (unmarked). Dequeue B, mark it, enqueue D. Dequeue C, mark it, D is still unmarked, so enqueue D again. (b) Correct distances, because BFS still dequeues in distance order and the second D is skipped. Cost: duplicate queue entries, up to one per edge. (c) DFS records the distance along the path it happens to take, which is not always the shortest one. BFS explores in rings of increasing distance, so its first visit is by a shortest path.</p>"""),
+ prompt="""<p>Give the running time of each operation, and say in a few words why. Say whether it is worst case, expected or amortized.</p>
+<ol type="a">
+<li><code>add</code> at the end of a dynamic array that doubles its capacity when full</li>
+<li><code>find</code> in an AVL tree with n keys</li>
+<li><code>find</code> in a plain (unbalanced) binary search tree with n keys</li>
+<li><code>remove</code> (the best value) from a binary heap with n values</li>
+<li><code>get</code> in a separate-chaining hash map whose load factor stays at most 0.75</li>
+</ol>""",
+ rubric=[(0.5, "(a) O(1) amortized: a resize copies n values, but it happens only after n cheap adds, so the copying averages out to a constant per add (worst case for one add is O(n))"),
+         (0.5, "(b) O(log n) worst case: rotations keep the height within a constant factor of log n"),
+         (0.5, "(c) O(n) worst case: inserting keys in sorted order builds a tree that is just a chain"),
+         (0.5, "(d) O(log n) worst case: the last value moves to the root and sinks at most the height of the tree"),
+         (0.5, "(e) O(1) expected: with a good hash function the average chain has at most 0.75 nodes; O(n) worst case if every key lands in one bucket")],
+ pen=[(-0.125, "Right bounds but doesn't say which kind (worst, expected, amortized) or gives no reason. Apply once")],
+ ref_html="""<p>(a) O(1) amortized, O(n) for the one add that triggers a resize. Doubling means resizes at sizes 1, 2, 4, …, n, which copy about 2n values in total over n adds. (b) O(log n) worst case. (c) O(n) worst case, e.g. inserting 1, 2, 3, … gives a right-leaning chain. (d) O(log n) worst case. (e) O(1) expected, O(n) worst case.</p>"""),
 
 dict(id="Q3", pts=2, kind="text",
  prompt="""<p>The course's open-addressing map: linear probing, Integer keys hash to themselves, 7 slots, tombstones. After storing a new key it rehashes if <code>used &gt; m/2</code>: to 17 if also <code>size &gt; m/2</code>, otherwise at the same size. Rehash reinserts live entries in old-slot order. Write tables as <code>slot:key</code> pairs and mark tombstones with †.</p>
@@ -187,42 +196,63 @@ public static List<Integer> mergeSorted(int[][] lists) {
  note="""<p>Each value enters and leaves the queue once, and the queue holds at most k entries, so each operation is O(log k): O(n log k) in total. Storing the row and position with the value is what lets you find "the next one from the same row".</p>"""),
 
 dict(id="Q9", pts=3, kind="code", ref=["Q9"],
- prompt="""<p>Write Lomuto <code>partition</code> using <code>a[hi]</code> as the pivot. Afterwards everything left of the pivot is smaller than it, everything right of it is ≥ it, and you return the pivot's final index. One left-to-right pass, in place. For example, <code>[6, 2, 9, 1, 7, 4]</code> with lo = 0 and hi = 5 becomes <code>[2, 1, 4, 6, 7, 9]</code> and returns 2.</p>""",
- stub="""// GIVEN: private static void swap(int[] a, int i, int j)
+ prompt="""<p>Implement <code>remove(index)</code> for the course's dynamic array: remove and return the value at <code>index</code>, shifting everything after it one place left so there are no gaps. Throw <code>IndexOutOfBoundsException</code> if <code>index</code> is not a valid position. Don't leave a stale reference in the array.</p>""",
+ stub="""public class DynamicArray<T> {
+  private T[] data;   // data[0..size-1] are the values
+  private int size;
 
-private static int partition(int[] a, int lo, int hi) {
-  // TODO
+  public T remove(int index) {
+    // TODO
+  }
 }""",
- rubric=[(0.5, "Takes <code>pivot = a[hi]</code>"),
-         (0.5, "Keeps a boundary starting at <code>lo</code>: the next slot for a small value"),
-         (0.5, "Scans <code>j</code> from <code>lo</code> up to <code>hi - 1</code>"),
-         (0.75, "When <code>a[j] &lt; pivot</code>, swaps it to the boundary and advances the boundary"),
-         (0.5, "After the loop, swaps the pivot from <code>hi</code> to the boundary"),
-         (0.25, "Returns the boundary")],
- pen=[(-0.5, "Loop includes <code>hi</code> itself, so the pivot is compared against itself and moved early"),
+ rubric=[(0.5, "Throws <code>IndexOutOfBoundsException</code> when <code>index &lt; 0</code> or <code>index &gt;= size</code> (not <code>data.length</code>)"),
+         (0.5, "Saves the value at <code>index</code> before it is overwritten"),
+         (0.75, "Shifts <code>data[i] = data[i + 1]</code> for i from <code>index</code> up to <code>size - 2</code>, left to right"),
+         (0.5, "Sets the old last slot <code>data[size - 1]</code> to null"),
+         (0.5, "Decrements size"),
+         (0.25, "Returns the saved value")],
+ pen=[(-0.5, "Shifts right to left (or in the wrong direction), overwriting values before they are moved"),
+      (-0.25, "Copies into a new array on every remove (O(n) extra space each time)"),
       SYN],
- note="""<p>Trace: pivot 4, i = 0. j=0: 6 no. j=1: 2 &lt; 4, swap with 6, i = 1. j=2: 9 no. j=3: 1 &lt; 4, swap with 6, i = 2. j=4: 7 no. Final swap of slots 2 and 5 gives <code>[2, 1, 4, 6, 7, 9]</code>, return 2.</p>"""),
+ note="""<p>The shift has to go left to right: each slot is overwritten by its right neighbor, which hasn't been touched yet. The loop stops at <code>size - 2</code> because slot <code>size - 1</code> has no right neighbor; it gets set to null instead. O(n) worst case (removing index 0).</p>"""),
 
 dict(id="Q10", pts=5, kind="code", ref=["Q10"],
- prompt="""<p>Label every vertex of an undirected graph with the number of its connected component: the first component found is 0, the next 1, and so on. Return a map from each vertex to its label. Use BFS, don't modify the graph, and put each vertex in a queue at most once.</p>""",
- stub="""// GIVEN: public class Graph<V> {
-//          public Iterable<V> vertices()        every vertex
-//          public Iterable<V> neighbors(V v)    the vertices adjacent to v
-//        }
+ prompt="""<p>Finish the AVL tree's balancing code: <code>updateHeight</code>, <code>rotateRight</code> and <code>rebalance</code>. A leaf has height 0 and an empty subtree has height -1. <code>rebalance(n)</code> is called on the way back up after an insert; it fixes <code>n</code> if its balance factor is outside -1..1 (all four cases) and returns the root of the fixed subtree.</p>""",
+ stub="""public class AvlTreeMap<K extends Comparable<K>, V> {
+  private static class Node<K, V> {
+    K key; V value; Node<K, V> left, right; int height;
+  }
 
-public static <V> Map<V, Integer> componentIds(Graph<V> g) {
-  // TODO
+  // GIVEN: private int height(Node<K, V> n)             -1 for null, otherwise n.height
+  // GIVEN: private Node<K, V> rotateLeft(Node<K, V> n)  mirror image of rotateRight; returns the new subtree root
+
+  private void updateHeight(Node<K, V> n) {
+    // TODO
+  }
+
+  private Node<K, V> rotateRight(Node<K, V> n) {
+    // TODO
+  }
+
+  private Node<K, V> rebalance(Node<K, V> n) {
+    // TODO
+  }
 }""",
- rubric=[(0.5, "Creates the result map (which can double as the visited set) and a component counter starting at 0"),
-         (0.75, "Loops over every vertex and starts a BFS only from vertices that have no label yet"),
-         (0.5, "Labels the start vertex and enqueues it"),
-         (1, "BFS: dequeue, iterate <code>g.neighbors(v)</code>, label and enqueue each unlabeled neighbor with the <b>same</b> counter value"),
-         (0.75, "Increments the counter once per component, after its BFS finishes"),
-         (0.75, "Every vertex ends up labeled, including isolated vertices with no edges"),
-         (0.75, "Total work O(V + E): each vertex is enqueued once over the whole method")],
- pen=[(-0.5, "Increments the counter inside the BFS (per vertex) instead of per component"),
-      (-0.5, "Modifies the graph"),
-      SYN]),
+ rubric=[(0.25, "updateHeight: <code>1 + max(height(left), height(right))</code>, using the null-safe <code>height</code>"),
+         (0.25, "rotateRight takes <code>child = n.left</code>"),
+         (0.5, "Moves child's right subtree under n: <code>n.left = child.right</code>"),
+         (0.5, "Puts n under child: <code>child.right = n</code>"),
+         (0.75, "Updates n's height <b>before</b> child's (child's height depends on n's)"),
+         (0.5, "Returns child, the new root of the subtree"),
+         (0.5, "rebalance computes the balance factor <code>height(n.left) - height(n.right)</code>"),
+         (0.75, "Left-heavy (&gt; 1) and the left child leans right: first <code>n.left = rotateLeft(n.left)</code>"),
+         (0.5, "Left-heavy: then returns <code>rotateRight(n)</code>"),
+         (0.5, "Right-heavy (&lt; -1): the mirror image, with <code>n.right = rotateRight(n.right)</code> when the right child leans left, then <code>rotateLeft(n)</code>; returns n unchanged when balanced")],
+ pen=[(-0.5, "Doesn't use a returned root (e.g. calls <code>rotateLeft(n.left)</code> without assigning it to <code>n.left</code>)"),
+      (-0.25, "Reads <code>n.left.height</code> directly, which crashes when a child is null"),
+      SYN],
+ note="""<p>Picture for rotateRight: n has left child c, and c has right subtree T. After the rotation c is on top, n is c's right child, and T (whose keys are between c and n) becomes n's left subtree. Only n and c change height, and n is now the lower one, so update it first.</p>"""),
+
 ]
 
 DRILLS = []

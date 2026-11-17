@@ -18,7 +18,8 @@ EXAMS = [
     dict(id="mock-5", title="Mock Test 5", minutes=90,
          topics="Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap remove, chained remove, open-addressing rehash, isConnected, indexed insert and removeBest, quickselect, BFS levels"),
     dict(id="mock-6", title="Mock Test 6", minutes=90,
-         topics="The iterator contract, BFS marking and DFS distances, tombstone reuse and same-size rehash, reverse key iterator, chained rehash, open-addressing put without probe, heapify constructor, k-way merge, Lomuto partition, component labels"),
+         subtitle="Dynamic Array through Open Addressing",
+         topics="Matches the Test 3 scope: the iterator contract, Big-O across structures, tombstone reuse and same-size rehash, reverse key iterator, chained rehash, open-addressing put without probe, heapify constructor, k-way merge with a heap, dynamic array remove, AVL rebalancing"),
 ]
 
 FONTS = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">\n'
@@ -149,7 +150,7 @@ def exam_page(meta, exam_qs, drills, refs):
   <div class="banner" id="tabBanner" hidden><span class="msg">This exam was changed in another tab while you were typing here.</span><button type="button" id="loadTheirsBtn">Load the other tab's version</button><button type="button" id="keepMineBtn">Keep mine</button></div>
 
   <div class="cover">
-    <h1>{meta["title"]}: heaps, hashing, sorting and graphs</h1>
+    <h1>{meta["title"]}: {meta.get("subtitle", "heaps, hashing, sorting and graphs")}</h1>
     <ul>
       <li>{len(exam_qs)} questions, {fmt(total)} points, in the shape of the real exam: short answers and a trace, then coding questions.</li>
       <li>{meta["minutes"]} minutes. The timer runs only while this tab is visible and not paused. Trace one tiny input through every coding answer before moving on.</li>
