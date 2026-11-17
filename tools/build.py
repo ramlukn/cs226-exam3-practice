@@ -17,6 +17,8 @@ EXAMS = [
          topics="Judging hashCode choices, indexed-heap swap bugs, tombstone trace, insert and swim, chained put, open-addressing find and remove, value iterator, indexed remove, partition, BFS shortest path"),
     dict(id="mock-5", title="Mock Test 5", minutes=90,
          topics="Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap remove, chained remove, open-addressing rehash, isConnected, indexed insert and removeBest, quickselect, BFS levels"),
+    dict(id="mock-6", title="Mock Test 6", minutes=90,
+         topics="The iterator contract, BFS marking and DFS distances, tombstone reuse and same-size rehash, reverse key iterator, chained rehash, open-addressing put without probe, heapify constructor, k-way merge, Lomuto partition, component labels"),
 ]
 
 FONTS = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">\n'
@@ -236,7 +238,7 @@ def index_page(cards):
   <div class="banner err" id="storageBanner" hidden><span class="msg">This browser is blocking storage (for example a private window), so answers won't be kept after you close the tab. Open the site in a normal window.</span></div>
 
   <div class="cover">
-    <h1>Three timed mock exams, graded like the real thing</h1>
+    <h1>Four timed mock exams, graded like the real thing</h1>
     <ul>
       <li>Each exam is 38 points in 90 minutes: short answers, a trace, and coding questions in Java, with GIVEN helpers like the real exam.</li>
       <li>Your answers save automatically in this browser. Come back any time; nothing is sent anywhere.</li>
