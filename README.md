@@ -13,7 +13,7 @@ Nothing to install and no account. Your answers save automatically in your own b
 | Mock Test 3 | Median-of-three quicksort, the equals/hashCode rule, an open-addressing trace, `isMinHeap`, chained `get`, open-addressing `probe` and `put`, `sink`, the indexed heap's `swap` and `changePriority`, a chained key iterator, BFS within k hops. Plus 8 untimed extra drills. |
 | Mock Test 4 | Judging `hashCode` choices, an indexed-heap swap bug, a tombstone trace, heap `insert` and `swim`, chained `put`, open-addressing `find` and `remove`, a value iterator, indexed-heap `remove(item)`, partition with `a[lo]` as pivot, BFS shortest path. |
 | Mock Test 5 | Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap `remove`, chained `remove`, open-addressing `rehash`, `isConnected`, indexed-heap `insert` and `removeBest`, quickselect, BFS levels. |
-| Mock Test 6 | **Matches the official Test 3 scope.** The iterator contract, Big-O across structures, a tombstone-reuse and same-size-rehash trace, a reverse-order key iterator, chained `rehash`, open-addressing `put` without a `probe` helper, an O(n) heapify constructor, merging k sorted lists with a heap, dynamic-array `remove`, AVL rotations and rebalancing. |
+| Mock Test 6 | **Matches the official Test 3 scope.** The iterator contract, Big-O across structures, a tombstone-reuse and same-size-rehash trace, a reverse-order key iterator, chained `rehash`, open-addressing `put` without a `probe` helper, an O(n) heapify constructor, merging k sorted lists with a heap, an indexed priority queue's `swap` and `changePriority`, in-place heapsort. |
 
 Each one is 10 questions worth 38 points. Take them in order if you can; each targets mistakes that are common on the one before.
 

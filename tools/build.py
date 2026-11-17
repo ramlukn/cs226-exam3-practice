@@ -18,8 +18,8 @@ EXAMS = [
     dict(id="mock-5", title="Mock Test 5", minutes=90,
          topics="Quicksort worst cases, bottom-up heapify, chaining and heap traces, heap remove, chained remove, open-addressing rehash, isConnected, indexed insert and removeBest, quickselect, BFS levels"),
     dict(id="mock-6", title="Mock Test 6", minutes=90,
-         subtitle="Dynamic Array through Open Addressing",
-         topics="Matches the Test 3 scope: the iterator contract, Big-O across structures, tombstone reuse and same-size rehash, reverse key iterator, chained rehash, open-addressing put without probe, heapify constructor, k-way merge with a heap, dynamic array remove, AVL rebalancing"),
+         subtitle="heaps, priority queues and hashing",
+         topics="Focused on the new Test 3 material: the iterator contract, Big-O across structures, tombstone reuse and same-size rehash, reverse key iterator, chained rehash, open-addressing put without probe, heapify constructor, k-way merge with a heap, indexed PQ swap and changePriority, in-place heapsort"),
 ]
 
 FONTS = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">\n'

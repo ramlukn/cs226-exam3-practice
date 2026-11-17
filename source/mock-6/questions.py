@@ -195,64 +195,59 @@ public static List<Integer> mergeSorted(int[][] lists) {
       SYN],
  note="""<p>Each value enters and leaves the queue once, and the queue holds at most k entries, so each operation is O(log k): O(n log k) in total. Storing the row and position with the value is what lets you find "the next one from the same row".</p>"""),
 
-dict(id="Q9", pts=3, kind="code", ref=["Q9"],
- prompt="""<p>Implement <code>remove(index)</code> for the course's dynamic array: remove and return the value at <code>index</code>, shifting everything after it one place left so there are no gaps. Throw <code>IndexOutOfBoundsException</code> if <code>index</code> is not a valid position. Don't leave a stale reference in the array.</p>""",
- stub="""public class DynamicArray<T> {
-  private T[] data;   // data[0..size-1] are the values
+dict(id="Q9", pts=4, kind="code", ref=["Q9"],
+ prompt="""<p>An <b>indexed</b> (adaptive) min-priority queue keeps a map from each item to its index in the heap array, so it can change an item's priority without searching. Implement <code>swap</code>, which every swim and sink step uses, and <code>changePriority</code>, which gives an item already in the queue a new priority and restores the heap order. Throw <code>IllegalArgumentException</code> if the item isn't in the queue. <code>changePriority</code> must run in O(log n).</p>""",
+ stub="""public class IndexedMinPQ<T> {
+  private static class Entry<T> {
+    T item; int priority;
+  }
+  private Entry<T>[] heap;              // heap[0..size-1], root at 0
   private int size;
+  private Map<T, Integer> where;        // item -> its index in heap
 
-  public T remove(int index) {
+  // GIVEN: private void swim(int i)    uses swap
+  // GIVEN: private void sink(int i)    uses swap
+
+  private void swap(int i, int j) {
+    // TODO
+  }
+
+  public void changePriority(T item, int priority) {
     // TODO
   }
 }""",
- rubric=[(0.5, "Throws <code>IndexOutOfBoundsException</code> when <code>index &lt; 0</code> or <code>index &gt;= size</code> (not <code>data.length</code>)"),
-         (0.5, "Saves the value at <code>index</code> before it is overwritten"),
-         (0.75, "Shifts <code>data[i] = data[i + 1]</code> for i from <code>index</code> up to <code>size - 2</code>, left to right"),
-         (0.5, "Sets the old last slot <code>data[size - 1]</code> to null"),
-         (0.5, "Decrements size"),
-         (0.25, "Returns the saved value")],
- pen=[(-0.5, "Shifts right to left (or in the wrong direction), overwriting values before they are moved"),
-      (-0.25, "Copies into a new array on every remove (O(n) extra space each time)"),
+ rubric=[(0.5, "swap exchanges the two entries in the array"),
+         (1, "swap updates <code>where</code> for <b>both</b> moved items, using their new indices"),
+         (0.5, "changePriority finds the index with <code>where.get(item)</code> (no linear search)"),
+         (0.25, "Throws <code>IllegalArgumentException</code> when the item isn't in the map"),
+         (0.5, "Saves the old priority, then stores the new one in the entry"),
+         (0.75, "Smaller new priority: <code>swim(i)</code>"),
+         (0.5, "Larger new priority: <code>sink(i)</code>")],
+ pen=[(-0.5, "Searches the heap array for the item (O(n))"),
+      (-0.5, "Removes and reinserts the item instead of swimming or sinking it in place"),
+      (-0.25, "Swims or sinks in only one direction, whatever the change"),
       SYN],
- note="""<p>The shift has to go left to right: each slot is overwritten by its right neighbor, which hasn't been touched yet. The loop stops at <code>size - 2</code> because slot <code>size - 1</code> has no right neighbor; it gets set to null instead. O(n) worst case (removing index 0).</p>"""),
+ note="""<p>The map is only correct if <i>every</i> move goes through <code>swap</code>, and <code>swap</code> moves two items, so both need new map entries. Updating just one is the classic bug: the next <code>changePriority</code> on the other item looks in the wrong slot. In a min-heap a smaller priority can only break the order with the parent (swim); a larger one only with the children (sink).</p>"""),
+dict(id="Q10", pts=4, kind="code", ref=["Q10"],
+ prompt="""<p>Implement in-place heapsort: sort <code>a</code> into ascending order using O(1) extra space and O(n log n) time. Write the helper <code>sink(a, i, n)</code> for a <b>max</b>-heap stored in <code>a[0..n-1]</code> (children of i at 2i + 1 and 2i + 2), then <code>heapSort</code> using it: build the heap bottom-up, then repeatedly move the largest value to the end.</p>""",
+ stub="""public static void heapSort(int[] a) {
+  // TODO
+}
 
-dict(id="Q10", pts=5, kind="code", ref=["Q10"],
- prompt="""<p>Finish the AVL tree's balancing code: <code>updateHeight</code>, <code>rotateRight</code> and <code>rebalance</code>. A leaf has height 0 and an empty subtree has height -1. <code>rebalance(n)</code> is called on the way back up after an insert; it fixes <code>n</code> if its balance factor is outside -1..1 (all four cases) and returns the root of the fixed subtree.</p>""",
- stub="""public class AvlTreeMap<K extends Comparable<K>, V> {
-  private static class Node<K, V> {
-    K key; V value; Node<K, V> left, right; int height;
-  }
-
-  // GIVEN: private int height(Node<K, V> n)             -1 for null, otherwise n.height
-  // GIVEN: private Node<K, V> rotateLeft(Node<K, V> n)  mirror image of rotateRight; returns the new subtree root
-
-  private void updateHeight(Node<K, V> n) {
-    // TODO
-  }
-
-  private Node<K, V> rotateRight(Node<K, V> n) {
-    // TODO
-  }
-
-  private Node<K, V> rebalance(Node<K, V> n) {
-    // TODO
-  }
+private static void sink(int[] a, int i, int n) {
+  // TODO: max-heap in a[0..n-1]
 }""",
- rubric=[(0.25, "updateHeight: <code>1 + max(height(left), height(right))</code>, using the null-safe <code>height</code>"),
-         (0.25, "rotateRight takes <code>child = n.left</code>"),
-         (0.5, "Moves child's right subtree under n: <code>n.left = child.right</code>"),
-         (0.5, "Puts n under child: <code>child.right = n</code>"),
-         (0.75, "Updates n's height <b>before</b> child's (child's height depends on n's)"),
-         (0.5, "Returns child, the new root of the subtree"),
-         (0.5, "rebalance computes the balance factor <code>height(n.left) - height(n.right)</code>"),
-         (0.75, "Left-heavy (&gt; 1) and the left child leans right: first <code>n.left = rotateLeft(n.left)</code>"),
-         (0.5, "Left-heavy: then returns <code>rotateRight(n)</code>"),
-         (0.5, "Right-heavy (&lt; -1): the mirror image, with <code>n.right = rotateRight(n.right)</code> when the right child leans left, then <code>rotateLeft(n)</code>; returns n unchanged when balanced")],
- pen=[(-0.5, "Doesn't use a returned root (e.g. calls <code>rotateLeft(n.left)</code> without assigning it to <code>n.left</code>)"),
-      (-0.25, "Reads <code>n.left.height</code> directly, which crashes when a child is null"),
+ rubric=[(0.25, "sink loops while i has a child: <code>2 * i + 1 &lt; n</code> (bounded by n, not a.length)"),
+         (0.5, "sink picks the <b>larger</b> child, checking the right child exists"),
+         (0.5, "sink stops when <code>a[i]</code> is at least that child, otherwise swaps and continues from the child"),
+         (0.75, "Builds the max-heap bottom-up: sink from <code>n / 2 - 1</code> down to 0"),
+         (0.5, "Loops <code>end</code> from n - 1 down to 1"),
+         (0.75, "Swaps <code>a[0]</code> (the max) with <code>a[end]</code>"),
+         (0.75, "Then sinks the root within the shrunk heap: <code>sink(a, 0, end)</code>")],
+ pen=[(-0.5, "Uses a min-heap, or a second array or PriorityQueue (not in place)"),
+      (-0.5, "Sinks with the full length after each swap, pulling sorted values back into the heap"),
       SYN],
- note="""<p>Picture for rotateRight: n has left child c, and c has right subtree T. After the rotation c is on top, n is c's right child, and T (whose keys are between c and n) becomes n's left subtree. Only n and c change height, and n is now the lower one, so update it first.</p>"""),
-
+ note="""<p>Why a <b>max</b>-heap for ascending order: each round, the largest remaining value goes to the end of the unsorted part, so the sorted part grows from the right. After the swap, <code>a[end..n-1]</code> is sorted and must stay out of the heap, which is why sink takes the heap size as a parameter.</p>"""),
 ]
 
 DRILLS = []
