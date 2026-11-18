@@ -11,9 +11,15 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = "https://github.com/ramlukn/cs226-exam3-practice/blob/main/docs/"
 
 EXAMS = [
-    dict(id="test3", title="Test 3 Practice Exam", minutes=90,
+    dict(id="test3", title="Practice Exam 1", minutes=90,
          subtitle="heaps, priority queues and hashing",
          topics="Heap insert and remove traces, heapify and heapsort trace, chaining and rehash trace, open-addressing tombstone trace, equals and hashCode, open-addressing get and remove, chained remove, heap remove and sink, indexed PQ remove(item), top k with a PriorityQueue"),
+    dict(id="test3-2", title="Practice Exam 2", minutes=90,
+         subtitle="heaps, priority queues and hashing",
+         topics="Reading heap arrays, indexed PQ trace, tombstones and growing rehash, Big-O, judging hashCode choices, chained put with load factor, heap insert and swim, isMinHeap, indexed PQ insert and removeMin, k-th smallest with a max-heap"),
+    dict(id="test3-3", title="Practice Exam 3", minutes=90,
+         subtitle="heaps, priority queues and hashing",
+         topics="Max-heap trace, chaining with floorMod and remove, linear probing and clustering, heapsort properties, mutable keys, open-addressing rehash, chained rehash, in-place heapsort, indexed PQ swap and changePriority, top k frequent with HashMap and PriorityQueue"),
 ]
 
 FONTS = ('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">\n'
@@ -233,9 +239,9 @@ def index_page(cards):
   <div class="banner err" id="storageBanner" hidden><span class="msg">This browser is blocking storage (for example a private window), so answers won't be kept after you close the tab. Open the site in a normal window.</span></div>
 
   <div class="cover">
-    <h1>A timed practice exam, graded like the real thing</h1>
+    <h1>Three timed practice exams, graded like the real thing</h1>
     <ul>
-      <li>The exam is 38 points in 90 minutes: short answers, a trace, and coding questions in Java, with GIVEN helpers like the real exam.</li>
+      <li>Each exam is 38 points in 90 minutes: short answers, a trace, and coding questions in Java, with GIVEN helpers like the real exam.</li>
       <li>Your answers save automatically in this browser. Come back any time; nothing is sent anywhere.</li>
       <li>After you submit, rubrics and reference solutions unlock, and you score yourself item by item. You can also copy a ready-made grading prompt for an AI.</li>
       <li>New here? Read <a href="{DOCS}using-the-site.md">how to use the site</a> and <a href="{DOCS}grading.md">how to grade</a>.</li>

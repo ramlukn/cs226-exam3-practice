@@ -1,18 +1,20 @@
 # CS226 Exam 3 practice
 
-A timed practice exam for CS226 (Data Structures, Java) Test 3, written for the announced scope: the test covers Dynamic Array through Open Addressing, with the focus on the material not covered in earlier tests (priority queues, binary heaps, heapsort, the indexed priority queue, hashing, separate chaining, open addressing). It follows the shape and grading style of the real exams: 38 points in 90 minutes, short answers and traces, then coding questions with GIVEN helpers.
+Three timed practice exams for CS226 (Data Structures, Java) Test 3, written for the announced scope: the test covers Dynamic Array through Open Addressing, with the focus on the material not covered in earlier tests (priority queues, binary heaps, heapsort, the indexed priority queue, hashing, separate chaining, open addressing). It follows the shape and grading style of the real exams: 38 points in 90 minutes, short answers and traces, then coding questions with GIVEN helpers.
 
 **Open the site: https://ramlukn.github.io/cs226-exam3-practice/**
 
 Nothing to install and no account. Your answers save automatically in your own browser.
 
-## The exam
+## The exams
 
 | Exam | Covers |
 |---|---|
-| Test 3 Practice Exam | Heap insert and remove traces, a heapify and heapsort trace, a chaining and rehash trace, an open-addressing tombstone trace, `equals` and `hashCode`, open-addressing `get` and `remove`, chained `remove`, heap `remove` and `sink`, the indexed priority queue's `remove(item)`, top k with a `PriorityQueue`. |
+| Practice Exam 1 | Heap insert and remove traces, a heapify and heapsort trace, a chaining and rehash trace, an open-addressing tombstone trace, `equals` and `hashCode`, open-addressing `get` and `remove`, chained `remove`, heap `remove` and `sink`, the indexed priority queue's `remove(item)`, top k with a `PriorityQueue`. |
+| Practice Exam 2 | Reading heap arrays, an indexed priority queue trace, tombstones and a growing rehash, Big-O, judging `hashCode` choices, chained `put` with the load-factor check, heap `insert` and `swim`, `isMinHeap`, the indexed priority queue's `insert` and `removeMin`, k-th smallest with a max-heap. |
+| Practice Exam 3 | A max-heap trace, chaining with `floorMod` and `remove`, linear probing and clustering, heapsort properties, mutable keys in a `HashMap`, open-addressing `rehash`, chained `rehash`, in-place heapsort, the indexed priority queue's `swap` and `changePriority`, top k most frequent with a `HashMap` and a `PriorityQueue`. |
 
-10 questions, 38 points. The earlier mock exams were removed because they included quicksort and graph search, which aren't on Test 3; they are still in the git history.
+Each is 10 questions worth 38 points, and they can be taken in any order. Earlier mock exams were removed because they included quicksort and graph search, which aren't on Test 3; they are still in the git history.
 
 ## How it works
 

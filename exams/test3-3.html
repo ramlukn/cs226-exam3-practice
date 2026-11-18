@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CS226 Practice Exam 3</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%231f4f8f%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="bar">
+  <div class="bar-in">
+    <div>
+      <div class="bar-title"><a href="../index.html">CS226 practice</a> · Practice Exam 3</div>
+      <div class="bar-sub">Closed book · 90 min · 38 pts · <span id="todoCount">0</span> TODO stubs left</div>
+    </div>
+    <span class="spacer"></span>
+    <span class="status" id="status" aria-live="polite">Loading…</span>
+    <span class="timer" id="timer" aria-label="Time remaining">90:00</span>
+    <button id="pauseBtn" type="button">Pause</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="banner err" id="storageBanner" hidden><span class="msg"></span><button type="button" onclick="document.getElementById('exportBtn').click()">Download backup</button></div>
+  <div class="banner" id="tabBanner" hidden><span class="msg">This exam was changed in another tab while you were typing here.</span><button type="button" id="loadTheirsBtn">Load the other tab's version</button><button type="button" id="keepMineBtn">Keep mine</button></div>
+
+  <div class="cover">
+    <h1>Practice Exam 3: heaps, priority queues and hashing</h1>
+    <ul>
+      <li>10 questions, 38 points, in the shape of the real exam: short answers and a trace, then coding questions.</li>
+      <li>90 minutes. The timer runs only while this tab is visible and not paused. Trace one tiny input through every coding answer before moving on.</li>
+      <li>Helpers marked GIVEN already exist: call them, don't rewrite them. Use the course's exceptions: <code>IllegalArgumentException</code>, <code>NoSuchElementException</code>.</li>
+      <li>Everything saves in this browser as you type. Use <b>Download backup</b> below to move to another device or keep a copy.</li>
+      <li>After you submit, each question shows its rubric and a reference solution, and you can score yourself. See <a href="https://github.com/ramlukn/cs226-exam3-practice/blob/main/docs/grading.md">how to grade</a>.</li>
+    </ul>
+    <div class="rubric"><span class="chip">5 short answer and trace · 15 pts</span><span class="chip">5 coding · 23 pts</span></div>
+  </div>
+
+  <div class="panel" aria-labelledby="attH">
+    <h2 id="attH">Attempt</h2>
+    <div class="attempt-row">
+      <select id="attemptSelect" aria-label="Choose an attempt"></select>
+      <button type="button" id="newAttemptBtn">New attempt</button>
+      <button type="button" id="deleteAttemptBtn" class="danger">Delete this attempt</button>
+    </div>
+    <p class="small" id="attemptInfo"></p>
+  </div>
+
+  <section class="part" aria-labelledby="pa">
+    <div class="part-h"><h2 id="pa">Practice Exam 3</h2><span>38 pts · about 90 min</span></div>
+<div class="q"><div class="q-h"><span class="q-id">Q1</span><span class="q-pts">3 pts</span></div><p>A binary <b>max</b>-heap is stored in an array with the root at index 0. Starting from empty:</p>
+<p>(a) Insert 3, 8, 5, 10, 1, 9 in that order. Write the array after <b>each</b> insert. (b) Then call <code>remove()</code> twice. Write the value returned and the array after each call.</p><textarea class="ans field ex" id="Q1" aria-label="Answer Q1"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">3 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.25</b><span>After 3, 8: [8, 3]</span></li><li><b>+0.25</b><span>After 5: [8, 3, 5]</span></li><li><b>+0.5</b><span>After 10: [10, 8, 5, 3] (10 swims past 3 and 8)</span></li><li><b>+0.25</b><span>After 1: [10, 8, 5, 3, 1]</span></li><li><b>+0.5</b><span>After 9: [10, 8, 9, 3, 1, 5] (9 swims past 5, stops under 10)</span></li><li><b>+0.5</b><span>First remove returns 10, array [9, 8, 5, 3, 1]</span></li><li><b>+0.75</b><span>Second remove returns 9, array [8, 3, 5, 1]</span></li><li class="pen"><b>−0.25</b><span>Sinks toward the smaller child (min-heap habit). Apply once</span></li></ul><div class="refsol"><pre class="show">insert 3:  [3]
+insert 8:  [8, 3]                 8 &gt; parent 3 → swap
+insert 5:  [8, 3, 5]
+insert 10: [10, 8, 5, 3]          at 3, parent 1 (3) → swap; at 1, parent 0 (8) → swap
+insert 1:  [10, 8, 5, 3, 1]
+insert 9:  [10, 8, 9, 3, 1, 5]    at 5, parent 2 (5) → swap; parent 0 (10) is bigger → stop
+
+remove → 10: last (5) to root: [5, 8, 9, 3, 1]; children 8, 9 → larger 9 → [9, 8, 5, 3, 1]
+remove → 9:  last (1) to root: [1, 8, 5, 3]; children 8, 5 → 8 → [8, 1, 5, 3]
+             child of index 1 is 3 &gt; 1 → swap → [8, 3, 5, 1]</pre></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q1" min="0" max="3" step="0.125" inputmode="decimal"> / 3</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q2</span><span class="q-pts">3 pts</span></div><p>The course's separate-chaining map: 7 buckets, Integer keys hash to themselves, index = <code>Math.floorMod(key, 7)</code>, new keys at the <b>head</b> of the chain. No rehash happens here.</p>
+<p>(a) Insert 9, -5, 16, -3, 4 in that order. Draw the buckets (<code>i: a → b → …</code>). (b) What does Java's <code>-5 % 7</code> evaluate to, and what would go wrong if the map used <code>%</code> instead of <code>floorMod</code>? (c) Then <code>remove(-5)</code> and <code>remove(4)</code>. For each, say whether it unlinks a head node or a later node, and draw the final buckets. (d) Then how many key comparisons does <code>get(9)</code> make?</p><textarea class="ans field ex" id="Q2" aria-label="Answer Q2"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">3 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>(a) floorMod values: 9 → 2, -5 → 2, 16 → 2, -3 → 4, 4 → 4</span></li><li><b>+0.5</b><span>(a) 2: 16 → -5 → 9, 4: 4 → -3</span></li><li><b>+0.5</b><span>(b) -5: <code>%</code> keeps the sign of the left side, so a negative hashCode gives a negative index and <code>buckets[-5]</code> throws ArrayIndexOutOfBoundsException</span></li><li><b>+0.5</b><span>(c) remove(-5) unlinks a middle node (16.next = 9); remove(4) unlinks the head (buckets[4] = -3)</span></li><li><b>+0.5</b><span>(c) Final: 2: 16 → 9, 4: -3</span></li><li><b>+0.5</b><span>(d) 2 (16, then 9)</span></li><li class="pen"><b>−0.25</b><span>Inserts at the tail instead of the head. Apply once</span></li></ul><div class="refsol"><pre class="show">floorMod(9, 7) = 2    floorMod(-5, 7) = 2    floorMod(16, 7) = 2
+floorMod(-3, 7) = 4   floorMod(4, 7) = 4
+(a) 2: 16 → -5 → 9      4: 4 → -3
+(b) -5 % 7 == -5 in Java → buckets[-5] → ArrayIndexOutOfBoundsException
+    floorMod always returns 0..m-1
+(c) remove(-5): prev = 16, so 16.next = 9          → 2: 16 → 9
+    remove(4): it is the head, so buckets[4] = -3    → 4: -3
+(d) get(9): bucket 2, compare 16, then 9 → 2</pre></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q2" min="0" max="3" step="0.125" inputmode="decimal"> / 3</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q3</span><span class="q-pts">3 pts</span></div><p>An open-addressing map with linear probing, <b>11</b> slots, Integer keys hashing to themselves, no removals and no rehash.</p>
+<p>(a) Put 22, 33, 1, 13, 2 in that order. Write the table (<code>slot:key</code>) and the number of slots each put examines. (b) How many slots does <code>get(44)</code> examine, and what does it return? (c) Keys 1, 13 and 2 hash to different slots from 22 and 33, yet they still collide. Name this effect and explain it with this example. (d) Why does the course keep the table at most half full?</p><textarea class="ans field ex" id="Q3" aria-label="Answer Q3"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">3 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>(a) 0:22, 1:33, 2:1, 3:13, 4:2</span></li><li><b>+0.5</b><span>(a) Slots examined: 22 → 1, 33 → 2, 1 → 2, 13 → 2, 2 → 3</span></li><li><b>+0.75</b><span>(b) 44 hashes to 0: examines 0, 1, 2, 3, 4, 5 (empty) = 6 slots, returns null</span></li><li><b>+0.75</b><span>(c) Primary clustering: occupied slots form one run, and any key hashing anywhere into the run must probe to its end, which makes the run longer still</span></li><li><b>+0.5</b><span>(d) Clusters (and so probe lengths) grow quickly as the table fills; at load ≤ 1/2 the expected probes stay O(1)</span></li><li class="pen"><b>−0.25</b><span>Counts only the collisions, not the slot where the key is found or stored. Apply once</span></li></ul><div class="refsol"><pre class="show">22 % 11 = 0 → 0                       (1 slot)
+33 % 11 = 0 → 0 taken, 1              (2)
+ 1 % 11 = 1 → 1 taken, 2              (2)
+13 % 11 = 2 → 2 taken, 3              (2)
+ 2 % 11 = 2 → 2, 3 taken, 4           (3)
+(b) get 44: 0, 1, 2, 3, 4 hold other keys, 5 is empty → 6 slots → null</pre>
+<p>(c) Slots 0–4 are one cluster. 1 and 13 never collided with their own home keys; they collided with keys that spilled over from slot 0. Every key that lands in the cluster extends it.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q3" min="0" max="3" step="0.125" inputmode="decimal"> / 3</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q4</span><span class="q-pts">3 pts</span></div><p>About in-place heapsort (max-heap, root at 0, bottom-up heapify, then repeatedly swap the root with the end of the heap and sink):</p>
+<p>(a) What is its worst-case running time? Account for both phases. (b) How much extra space does it use? (c) Is it stable? Show what it does to <code>[1a, 1b]</code> (two equal keys, a before b). (d) Sorting by adding everything to a <code>java.util.PriorityQueue</code> and removing it all is also O(n log n). What does in-place heapsort do better?</p><textarea class="ans field ex" id="Q4" aria-label="Answer Q4"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">3 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.75</b><span>(a) O(n log n): heapify is O(n), then n - 1 rounds of swap + sink, each O(log n)</span></li><li><b>+0.5</b><span>(b) O(1) extra: it rearranges the array itself</span></li><li><b>+1</b><span>(c) Not stable: heapify leaves [1a, 1b] (1b isn't larger); the first round swaps root and end → [1b, 1a], reversing the equal keys</span></li><li><b>+0.75</b><span>(d) Uses O(1) extra space instead of O(n) for the queue (and needs no copying back)</span></li><li class="pen"><b>−0.25</b><span>Says heapsort is O(n) because heapify is O(n)</span></li></ul><div class="refsol"></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q4" min="0" max="3" step="0.125" inputmode="decimal"> / 3</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q5</span><span class="q-pts">3 pts</span></div><pre class="show">public class Point {
+  public int x, y;                       // NOT final
+  // equals compares x and y; hashCode returns 31 * x + y
+}
+
+Point p = new Point(1, 2);
+Map&lt;Point, String&gt; map = new HashMap&lt;&gt;();
+map.put(p, "A");
+p.x = 5;</pre>
+<p>(a) What does <code>map.get(p)</code> most likely return? Explain using buckets. (b) What does <code>map.get(new Point(1, 2))</code> return? Explain. (c) What is <code>map.size()</code>, and can the entry still be reached with <code>get</code>? (d) Give two ways to avoid this.</p><textarea class="ans field ex" id="Q5" aria-label="Answer Q5"></textarea><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">3 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.75</b><span>(a) null: p's hashCode is now 31·5 + 2 = 157, so get looks in a different bucket from where the entry was stored (31 + 2 = 33)</span></li><li><b>+0.75</b><span>(b) null: it hashes to the right bucket, but the stored key now equals (5, 2), so equals fails</span></li><li><b>+0.5</b><span>(c) 1: the entry is still in the table, but no key can reach it with get (only iteration finds it)</span></li><li><b>+1</b><span>(d) Make key fields final (immutable keys); or remove the entry before changing the key and put it back after</span></li><li class="pen"><b>−0.25</b><span>Says the map rehashes or updates the entry automatically when the key changes</span></li></ul><div class="refsol"></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q5" min="0" max="3" step="0.125" inputmode="decimal"> / 3</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q6</span><span class="q-pts">5 pts</span></div><p>Implement <code>rehash(newCapacity)</code> for the course's open-addressing map (linear probing, tombstones). Move every <b>live</b> entry into a new array of the given length and drop the tombstones. Don't call <code>put</code>: write the probe yourself. Leave <code>size</code> and <code>used</code> correct.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q6" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q6">public class OpenAddressingMap&lt;K, V&gt; implements Map&lt;K, V&gt; {
+  private static class Entry&lt;K, V&gt; {
+    K key; V value; boolean deleted;   // deleted == true means tombstone
+  }
+  private Entry&lt;K, V&gt;[] slots;
+  private int size;   // live entries
+  private int used;   // live entries + tombstones
+
+  // GIVEN: private int indexFor(K key)   floorMod(key.hashCode(), slots.length)
+
+  private void rehash(int newCapacity) {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q6">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>Keeps a reference to the old array</span></li><li><b>+0.5</b><span>Allocates the new array (e.g. <code>(Entry&lt;K, V&gt;[]) new Entry[newCapacity]</code>) and assigns it to <code>slots</code> before reinserting</span></li><li><b>+0.5</b><span>Visits every old slot</span></li><li><b>+0.75</b><span>Skips null slots <b>and</b> tombstones</span></li><li><b>+0.75</b><span>Computes each home slot with the <b>new</b> length (indexFor after slots is replaced)</span></li><li><b>+0.75</b><span>Probes forward with wraparound <code>(i + 1) % slots.length</code> to the first null slot</span></li><li><b>+0.5</b><span>Stores the entry there (reusing it is fine)</span></li><li><b>+0.75</b><span>Sets <code>used = size</code> and leaves size unchanged</span></li><li class="pen"><b>−0.5</b><span>Copies tombstones into the new table</span></li><li class="pen"><b>−0.5</b><span>Indexes with the old length</span></li><li class="pen"><b>−0.25</b><span>Calls put</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">@SuppressWarnings(&quot;unchecked&quot;)
+private void rehash(int newCapacity) {
+  Entry&lt;K, V&gt;[] old = slots;
+  slots = (Entry&lt;K, V&gt;[]) new Entry[newCapacity];   // indexFor now uses the new length
+  for (int j = 0; j &lt; old.length; j++) {
+    Entry&lt;K, V&gt; e = old[j];
+    if (e == null || e.deleted) continue;           // tombstones are dropped
+    int i = indexFor(e.key);
+    while (slots[i] != null) {                      // new table has no tombstones:
+      i = (i + 1) % slots.length;                   // just find the first empty slot
+    }
+    slots[i] = e;                                   // reuse the entry object
+  }
+  used = size;                                      // no tombstones left; size unchanged
+}</pre><p>The new table has no tombstones and no duplicate keys, so the probe only has to find the first empty slot: no equals checks needed. After the rehash every non-null slot is live, which is why <code>used</code> becomes <code>size</code>.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q6" min="0" max="5" step="0.125" inputmode="decimal"> / 5</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q7</span><span class="q-pts">4 pts</span></div><p>Implement <code>rehash</code> for the separate-chaining map. It moves to the next prime in <code>PRIMES</code> (or <code>2m + 1</code> once the list runs out) and moves every <b>existing node</b> into its new bucket, inserting at the head. Don't create new nodes.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q7" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q7">public class HashMap&lt;K, V&gt; implements Map&lt;K, V&gt; {
+  private static class Node&lt;K, V&gt; {
+    K key; V value; Node&lt;K, V&gt; next;
+  }
+  private static final int[] PRIMES = {7, 17, 37, 79, 163, 331, 673};
+  private int primeIndex;          // buckets.length == PRIMES[primeIndex] while in range
+  private Node&lt;K, V&gt;[] buckets;
+  private int size;
+
+  // GIVEN: private int indexFor(K key)   floorMod(key.hashCode(), buckets.length)
+
+  private void rehash() {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q7">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">4 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.5</b><span>New capacity: <code>PRIMES[++primeIndex]</code> while in range, otherwise <code>2 * m + 1</code></span></li><li><b>+0.5</b><span>Keeps a reference to the old array and allocates the new one before reinserting</span></li><li><b>+0.5</b><span>Visits every old bucket and every node in its chain</span></li><li><b>+0.75</b><span>Saves <code>curr.next</code> before relinking the node</span></li><li><b>+0.75</b><span>Computes the new bucket with the <b>new</b> length</span></li><li><b>+0.75</b><span>Inserts at the head of that new bucket: <code>curr.next = buckets[i]; buckets[i] = curr;</code></span></li><li><b>+0.25</b><span>Leaves <code>size</code> unchanged</span></li><li class="pen"><b>−0.5</b><span>Creates new nodes (or calls put) instead of moving the existing ones</span></li><li class="pen"><b>−0.25</b><span>Indexes with the old length</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">@SuppressWarnings(&quot;unchecked&quot;)
+private void rehash() {
+  Node&lt;K, V&gt;[] old = buckets;
+  int capacity = (primeIndex + 1 &lt; PRIMES.length)
+      ? PRIMES[++primeIndex]
+      : 2 * old.length + 1;
+  buckets = (Node&lt;K, V&gt;[]) new Node[capacity];   // indexFor now uses the new length
+  for (int b = 0; b &lt; old.length; b++) {
+    Node&lt;K, V&gt; curr = old[b];
+    while (curr != null) {
+      Node&lt;K, V&gt; next = curr.next;               // save it: relinking overwrites curr.next
+      int i = indexFor(curr.key);
+      curr.next = buckets[i];                    // insert at the head of the new bucket
+      buckets[i] = curr;
+      curr = next;
+    }
+  }                                              // size is unchanged: same nodes, new places
+}</pre><p>Two classic bugs: using <code>PRIMES[primeIndex++]</code> (that's the <i>current</i> size), and setting <code>buckets[i] = curr</code> without <code>curr.next = buckets[i]</code> (the node drags its old chain along).</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q7" min="0" max="4" step="0.125" inputmode="decimal"> / 4</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q8</span><span class="q-pts">4 pts</span></div><p>Implement in-place heapsort: sort <code>a</code> into ascending order using O(1) extra space and O(n log n) time. Write the helper <code>sink(a, i, n)</code> for a <b>max</b>-heap stored in <code>a[0..n-1]</code> (children of i at 2i + 1 and 2i + 2), then <code>heapSort</code> using it.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q8" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q8">public static void heapSort(int[] a) {
+  // TODO
+}
+
+private static void sink(int[] a, int i, int n) {
+  // TODO: max-heap in a[0..n-1]
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q8">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">4 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.25</b><span>sink loops while i has a child: <code>2 * i + 1 &lt; n</code> (bounded by n, not a.length)</span></li><li><b>+0.5</b><span>sink picks the <b>larger</b> child, checking the right child exists</span></li><li><b>+0.5</b><span>sink stops when <code>a[i]</code> is at least that child, otherwise swaps and continues from the child</span></li><li><b>+0.75</b><span>Builds the max-heap bottom-up: sink from <code>n / 2 - 1</code> down to 0</span></li><li><b>+0.5</b><span>Loops <code>end</code> from n - 1 down to 1</span></li><li><b>+0.75</b><span>Swaps <code>a[0]</code> (the max) with <code>a[end]</code></span></li><li><b>+0.75</b><span>Then sinks the root within the shrunk heap: <code>sink(a, 0, end)</code></span></li><li class="pen"><b>−0.5</b><span>Uses a min-heap, or a second array or PriorityQueue (not in place)</span></li><li class="pen"><b>−0.5</b><span>Sinks with the full length after each swap, pulling sorted values back into the heap</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">// Max-heap in a[0..n-1]: moves a[i] down until it is &gt;= both children.
+private static void sink(int[] a, int i, int n) {
+  while (2 * i + 1 &lt; n) {
+    int b = 2 * i + 1;                     // left child
+    if (b + 1 &lt; n &amp;&amp; a[b + 1] &gt; a[b]) b++; // the larger child
+    if (a[i] &gt;= a[b]) break;
+    int t = a[i]; a[i] = a[b]; a[b] = t;
+    i = b;
+  }
+}
+
+public static void heapSort(int[] a) {
+  int n = a.length;
+  for (int i = n / 2 - 1; i &gt;= 0; i--) {   // 1. heapify bottom-up: O(n)
+    sink(a, i, n);
+  }
+  for (int end = n - 1; end &gt; 0; end--) {  // 2. move the max to the end, shrink the heap
+    int t = a[0]; a[0] = a[end]; a[end] = t;
+    sink(a, 0, end);                       // heap is now a[0..end-1]
+  }
+}</pre><p>After each swap, <code>a[end..n-1]</code> is sorted and must stay out of the heap, which is why sink takes the heap size as a parameter.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q8" min="0" max="4" step="0.125" inputmode="decimal"> / 4</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q9</span><span class="q-pts">5 pts</span></div><p>An <b>indexed</b> min-priority queue keeps <code>where</code>, a map from each item to its index in the heap array. Implement <code>swap</code>, which every swim and sink step uses, and <code>changePriority</code>, which gives an item already in the queue a new priority and restores the heap order in O(log n). Throw <code>IllegalArgumentException</code> if the item isn't in the queue.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q9" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q9">public class IndexedMinPQ&lt;T&gt; {
+  private static class Entry&lt;T&gt; {
+    T item; int priority;
+  }
+  private Entry&lt;T&gt;[] heap;              // heap[0..size-1], root at 0
+  private int size;
+  private Map&lt;T, Integer&gt; where;        // item -&gt; its index in heap
+
+  // GIVEN: private void swim(int i)    uses swap
+  // GIVEN: private void sink(int i)    uses swap
+
+  private void swap(int i, int j) {
+    // TODO
+  }
+
+  public void changePriority(T item, int priority) {
+    // TODO
+  }
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q9">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.75</b><span>swap exchanges the two entries in the array</span></li><li><b>+1.25</b><span>swap updates <code>where</code> for <b>both</b> moved items, using their new indices</span></li><li><b>+0.75</b><span>changePriority finds the index with <code>where.get(item)</code> (no linear search)</span></li><li><b>+0.25</b><span>Throws <code>IllegalArgumentException</code> when the item isn't in the map</span></li><li><b>+0.5</b><span>Saves the old priority, then stores the new one in the entry</span></li><li><b>+0.75</b><span>Smaller new priority: <code>swim(i)</code></span></li><li><b>+0.75</b><span>Larger new priority: <code>sink(i)</code> (or calls both)</span></li><li class="pen"><b>−0.5</b><span>Searches the heap array for the item (O(n))</span></li><li class="pen"><b>−0.5</b><span>Removes and reinserts the item instead of swimming or sinking it in place</span></li><li class="pen"><b>−0.25</b><span>Swims or sinks in only one direction, whatever the change</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">private void swap(int i, int j) {
+  Entry&lt;T&gt; t = heap[i]; heap[i] = heap[j]; heap[j] = t;
+  where.put(heap[i].item, i);              // both moved entries get their new index
+  where.put(heap[j].item, j);
+}
+
+public void changePriority(T item, int priority) {
+  Integer i = where.get(item);             // O(1): no searching the heap
+  if (i == null) throw new IllegalArgumentException();
+  int old = heap[i].priority;
+  heap[i].priority = priority;
+  if (priority &lt; old) swim(i);             // smaller is better in a min-heap: move up
+  else sink(i);                            // larger: move down
+}</pre><p>The map is only correct if <i>every</i> move goes through <code>swap</code>, and swap moves two items, so both need new map entries. In a min-heap a smaller priority can only break the order with the parent (swim); a larger one only with the children (sink).</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q9" min="0" max="5" step="0.125" inputmode="decimal"> / 5</label></div>
+<div class="q"><div class="q-h"><span class="q-id">Q10</span><span class="q-pts">5 pts</span></div><p>Return the <code>k</code> values that occur <b>most often</b> in <code>a</code>, in any order. If fewer than k distinct values exist, return all of them; if several values tie for the last place, any of them may be chosen. With n values and d distinct ones it must run in O(n + d log k) expected time: count with a <code>HashMap</code>, then pick with a <code>PriorityQueue</code> that never holds more than k entries. Throw <code>IllegalArgumentException</code> if <code>a</code> is null or k is negative.</p><div class="ed"><div class="ln" aria-hidden="true"></div><textarea class="code field ex" id="Q10" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Code for Q10">// You may use java.util.HashMap, Map, PriorityQueue, ArrayList, List
+public static List&lt;Integer&gt; topKFrequent(int[] a, int k) {
+  // TODO
+}</textarea></div><div class="ed-foot"><span>Tab inserts 2 spaces</span><span class="spacer"></span><button type="button" class="resetBtn" data-for="Q10">Reset to stub</button></div><p class="lock">The rubric unlocks when you submit.</p><details class="rub exam" hidden><summary>Rubric and reference solution</summary><p class="rub-h">5 pts. Start from 0 and add each item the answer earns; penalties come off at the end.</p><ul class="items"><li><b>+0.25</b><span>Throws <code>IllegalArgumentException</code> for null or negative k</span></li><li><b>+1</b><span>Counts with a HashMap, e.g. <code>count.put(x, count.getOrDefault(x, 0) + 1)</code></span></li><li><b>+0.75</b><span>PriorityQueue entries carry both the value and its count (e.g. <code>int[]{value, count}</code> or Map.Entry)</span></li><li><b>+0.75</b><span>Orders the queue by count, <b>least</b> frequent at the root (min-heap by count)</span></li><li><b>+1</b><span>Adds while fewer than k entries; once full, replaces the root only when the new count is larger</span></li><li><b>+0.5</b><span>Handles k = 0 without crashing</span></li><li><b>+0.75</b><span>Returns the values (not the counts) of what is left in the queue</span></li><li class="pen"><b>−1</b><span>Puts all d entries in the queue, or sorts all the counts</span></li><li class="pen"><b>−0.5</b><span>Orders by value instead of count</span></li><li class="pen"><b>−0.125</b><span>Minor logic or major syntax errors showing lack of understanding</span></li></ul><div class="refsol"><pre class="show">public static List&lt;Integer&gt; topKFrequent(int[] a, int k) {
+  if (a == null || k &lt; 0) throw new IllegalArgumentException();
+  Map&lt;Integer, Integer&gt; count = new HashMap&lt;&gt;();            // 1. count: O(n) expected
+  for (int x : a) {
+    count.put(x, count.getOrDefault(x, 0) + 1);
+  }
+  // 2. MIN-heap by count of {value, count}: root = least frequent of the kept k
+  PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;((p, q) -&gt; Integer.compare(p[1], q[1]));
+  for (Map.Entry&lt;Integer, Integer&gt; e : count.entrySet()) {
+    int[] pair = {e.getKey(), e.getValue()};
+    if (pq.size() &lt; k) {
+      pq.add(pair);
+    } else if (k &gt; 0 &amp;&amp; pair[1] &gt; pq.peek()[1]) {           // more frequent than the weakest kept
+      pq.remove();
+      pq.add(pair);
+    }
+  }
+  List&lt;Integer&gt; out = new ArrayList&lt;&gt;();
+  for (int[] pair : pq) out.add(pair[0]);                   // any order is fine
+  return out;
+}</pre><p>Hashing plus a heap: the map turns n values into d (value, count) pairs in O(n), then it's top k on the counts. Keeping the k <i>most</i> frequent means the one to throw out next is the <i>least</i> frequent kept, so it sits at the root of a min-heap.</p></div></details><label class="score" hidden>Your score <input type="number" class="sc" data-for="Q10" min="0" max="5" step="0.125" inputmode="decimal"> / 5</label></div>
+  </section>
+
+  <div class="submit" id="submitBox">
+    <p class="note" id="submitNote">When you're done, submit. Your answers stay saved and editable afterward.</p>
+    <div class="row" id="submitRow"><button type="button" class="primary" id="submitBtn">Submit exam</button></div>
+    <div class="row" id="confirmRow" hidden>
+      <span class="note" id="confirmText">Submit now?</span>
+      <button type="button" class="primary" id="confirmBtn">Submit</button>
+      <button type="button" id="cancelBtn">Keep working</button>
+    </div>
+    <div id="doneRow" hidden>
+      <p class="tally">Self-graded: <b id="tally">0</b> / 38 <span class="note" id="tallyNote"></span></p>
+      <p class="note">Score each question in the box under its rubric. For a second opinion, copy the grading prompt into Claude (or another AI) or send the answers file to a friend.</p>
+      <div class="row" style="margin-top:8px">
+        <button type="button" id="copyPromptBtn">Copy grading prompt</button>
+        <button type="button" id="downloadMdBtn">Download answers (.md)</button>
+        <span class="note" id="copyMsg"></span>
+      </div>
+      <textarea id="copyBox" hidden readonly aria-label="Grading prompt"></textarea>
+    </div>
+  </div>
+
+  <div class="panel" aria-labelledby="bkH">
+    <h2 id="bkH">Backup</h2>
+    <p class="small">Answers live only in this browser. A backup file holds every attempt at this exam; importing one merges it in (the newer copy of an attempt wins), so it is safe to import twice.</p>
+    <div class="row">
+      <button type="button" id="exportBtn">Download backup</button>
+      <label class="file-btn"><button type="button" onclick="this.nextElementSibling.click()">Import backup</button><input type="file" id="importInput" accept="application/json,.json"></label>
+    </div>
+  </div>
+
+  
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script type="application/json" id="exam-spec">{"id": "test3-3", "title": "Practice Exam 3", "minutes": 90, "total": 38, "questions": [{"id": "Q1", "pts": 3, "kind": "text", "exam": true, "prompt": "A binary max-heap is stored in an array with the root at index 0. Starting from empty:\n\n(a) Insert 3, 8, 5, 10, 1, 9 in that order. Write the array after each insert. (b) Then call remove() twice. Write the value returned and the array after each call.", "stub": "", "rubric": [[0.25, "After 3, 8: [8, 3]"], [0.25, "After 5: [8, 3, 5]"], [0.5, "After 10: [10, 8, 5, 3] (10 swims past 3 and 8)"], [0.25, "After 1: [10, 8, 5, 3, 1]"], [0.5, "After 9: [10, 8, 9, 3, 1, 5] (9 swims past 5, stops under 10)"], [0.5, "First remove returns 10, array [9, 8, 5, 3, 1]"], [0.75, "Second remove returns 9, array [8, 3, 5, 1]"]], "pen": [[-0.25, "Sinks toward the smaller child (min-heap habit). Apply once"]], "reference": "insert 3:  [3]\ninsert 8:  [8, 3]                 8 > parent 3 → swap\ninsert 5:  [8, 3, 5]\ninsert 10: [10, 8, 5, 3]          at 3, parent 1 (3) → swap; at 1, parent 0 (8) → swap\ninsert 1:  [10, 8, 5, 3, 1]\ninsert 9:  [10, 8, 9, 3, 1, 5]    at 5, parent 2 (5) → swap; parent 0 (10) is bigger → stop\n\nremove → 10: last (5) to root: [5, 8, 9, 3, 1]; children 8, 9 → larger 9 → [9, 8, 5, 3, 1]\nremove → 9:  last (1) to root: [1, 8, 5, 3]; children 8, 5 → 8 → [8, 1, 5, 3]\n             child of index 1 is 3 > 1 → swap → [8, 3, 5, 1]"}, {"id": "Q2", "pts": 3, "kind": "text", "exam": true, "prompt": "The course's separate-chaining map: 7 buckets, Integer keys hash to themselves, index = Math.floorMod(key, 7), new keys at the head of the chain. No rehash happens here.\n\n(a) Insert 9, -5, 16, -3, 4 in that order. Draw the buckets (i: a → b → …). (b) What does Java's -5 % 7 evaluate to, and what would go wrong if the map used % instead of floorMod? (c) Then remove(-5) and remove(4). For each, say whether it unlinks a head node or a later node, and draw the final buckets. (d) Then how many key comparisons does get(9) make?", "stub": "", "rubric": [[0.5, "(a) floorMod values: 9 → 2, -5 → 2, 16 → 2, -3 → 4, 4 → 4"], [0.5, "(a) 2: 16 → -5 → 9, 4: 4 → -3"], [0.5, "(b) -5: % keeps the sign of the left side, so a negative hashCode gives a negative index and buckets[-5] throws ArrayIndexOutOfBoundsException"], [0.5, "(c) remove(-5) unlinks a middle node (16.next = 9); remove(4) unlinks the head (buckets[4] = -3)"], [0.5, "(c) Final: 2: 16 → 9, 4: -3"], [0.5, "(d) 2 (16, then 9)"]], "pen": [[-0.25, "Inserts at the tail instead of the head. Apply once"]], "reference": "floorMod(9, 7) = 2    floorMod(-5, 7) = 2    floorMod(16, 7) = 2\nfloorMod(-3, 7) = 4   floorMod(4, 7) = 4\n(a) 2: 16 → -5 → 9      4: 4 → -3\n(b) -5 % 7 == -5 in Java → buckets[-5] → ArrayIndexOutOfBoundsException\n    floorMod always returns 0..m-1\n(c) remove(-5): prev = 16, so 16.next = 9          → 2: 16 → 9\n    remove(4): it is the head, so buckets[4] = -3    → 4: -3\n(d) get(9): bucket 2, compare 16, then 9 → 2"}, {"id": "Q3", "pts": 3, "kind": "text", "exam": true, "prompt": "An open-addressing map with linear probing, 11 slots, Integer keys hashing to themselves, no removals and no rehash.\n\n(a) Put 22, 33, 1, 13, 2 in that order. Write the table (slot:key) and the number of slots each put examines. (b) How many slots does get(44) examine, and what does it return? (c) Keys 1, 13 and 2 hash to different slots from 22 and 33, yet they still collide. Name this effect and explain it with this example. (d) Why does the course keep the table at most half full?", "stub": "", "rubric": [[0.5, "(a) 0:22, 1:33, 2:1, 3:13, 4:2"], [0.5, "(a) Slots examined: 22 → 1, 33 → 2, 1 → 2, 13 → 2, 2 → 3"], [0.75, "(b) 44 hashes to 0: examines 0, 1, 2, 3, 4, 5 (empty) = 6 slots, returns null"], [0.75, "(c) Primary clustering: occupied slots form one run, and any key hashing anywhere into the run must probe to its end, which makes the run longer still"], [0.5, "(d) Clusters (and so probe lengths) grow quickly as the table fills; at load ≤ 1/2 the expected probes stay O(1)"]], "pen": [[-0.25, "Counts only the collisions, not the slot where the key is found or stored. Apply once"]], "reference": "22 % 11 = 0 → 0                       (1 slot)\n33 % 11 = 0 → 0 taken, 1              (2)\n 1 % 11 = 1 → 1 taken, 2              (2)\n13 % 11 = 2 → 2 taken, 3              (2)\n 2 % 11 = 2 → 2, 3 taken, 4           (3)\n(b) get 44: 0, 1, 2, 3, 4 hold other keys, 5 is empty → 6 slots → null\n(c) Slots 0–4 are one cluster. 1 and 13 never collided with their own home keys; they collided with keys that spilled over from slot 0. Every key that lands in the cluster extends it."}, {"id": "Q4", "pts": 3, "kind": "text", "exam": true, "prompt": "About in-place heapsort (max-heap, root at 0, bottom-up heapify, then repeatedly swap the root with the end of the heap and sink):\n\n(a) What is its worst-case running time? Account for both phases. (b) How much extra space does it use? (c) Is it stable? Show what it does to [1a, 1b] (two equal keys, a before b). (d) Sorting by adding everything to a java.util.PriorityQueue and removing it all is also O(n log n). What does in-place heapsort do better?", "stub": "", "rubric": [[0.75, "(a) O(n log n): heapify is O(n), then n - 1 rounds of swap + sink, each O(log n)"], [0.5, "(b) O(1) extra: it rearranges the array itself"], [1, "(c) Not stable: heapify leaves [1a, 1b] (1b isn't larger); the first round swaps root and end → [1b, 1a], reversing the equal keys"], [0.75, "(d) Uses O(1) extra space instead of O(n) for the queue (and needs no copying back)"]], "pen": [[-0.25, "Says heapsort is O(n) because heapify is O(n)"]], "reference": ""}, {"id": "Q5", "pts": 3, "kind": "text", "exam": true, "prompt": "public class Point {\n  public int x, y;                       // NOT final\n  // equals compares x and y; hashCode returns 31 * x + y\n}\n\nPoint p = new Point(1, 2);\nMap<Point, String> map = new HashMap<>();\nmap.put(p, \"A\");\np.x = 5;\n(a) What does map.get(p) most likely return? Explain using buckets. (b) What does map.get(new Point(1, 2)) return? Explain. (c) What is map.size(), and can the entry still be reached with get? (d) Give two ways to avoid this.", "stub": "", "rubric": [[0.75, "(a) null: p's hashCode is now 31·5 + 2 = 157, so get looks in a different bucket from where the entry was stored (31 + 2 = 33)"], [0.75, "(b) null: it hashes to the right bucket, but the stored key now equals (5, 2), so equals fails"], [0.5, "(c) 1: the entry is still in the table, but no key can reach it with get (only iteration finds it)"], [1, "(d) Make key fields final (immutable keys); or remove the entry before changing the key and put it back after"]], "pen": [[-0.25, "Says the map rehashes or updates the entry automatically when the key changes"]], "reference": ""}, {"id": "Q6", "pts": 5, "kind": "code", "exam": true, "prompt": "Implement rehash(newCapacity) for the course's open-addressing map (linear probing, tombstones). Move every live entry into a new array of the given length and drop the tombstones. Don't call put: write the probe yourself. Leave size and used correct.", "stub": "public class OpenAddressingMap<K, V> implements Map<K, V> {\n  private static class Entry<K, V> {\n    K key; V value; boolean deleted;   // deleted == true means tombstone\n  }\n  private Entry<K, V>[] slots;\n  private int size;   // live entries\n  private int used;   // live entries + tombstones\n\n  // GIVEN: private int indexFor(K key)   floorMod(key.hashCode(), slots.length)\n\n  private void rehash(int newCapacity) {\n    // TODO\n  }\n}", "rubric": [[0.5, "Keeps a reference to the old array"], [0.5, "Allocates the new array (e.g. (Entry<K, V>[]) new Entry[newCapacity]) and assigns it to slots before reinserting"], [0.5, "Visits every old slot"], [0.75, "Skips null slots and tombstones"], [0.75, "Computes each home slot with the new length (indexFor after slots is replaced)"], [0.75, "Probes forward with wraparound (i + 1) % slots.length to the first null slot"], [0.5, "Stores the entry there (reusing it is fine)"], [0.75, "Sets used = size and leaves size unchanged"]], "pen": [[-0.5, "Copies tombstones into the new table"], [-0.5, "Indexes with the old length"], [-0.25, "Calls put"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "@SuppressWarnings(\"unchecked\")\nprivate void rehash(int newCapacity) {\n  Entry<K, V>[] old = slots;\n  slots = (Entry<K, V>[]) new Entry[newCapacity];   // indexFor now uses the new length\n  for (int j = 0; j < old.length; j++) {\n    Entry<K, V> e = old[j];\n    if (e == null || e.deleted) continue;           // tombstones are dropped\n    int i = indexFor(e.key);\n    while (slots[i] != null) {                      // new table has no tombstones:\n      i = (i + 1) % slots.length;                   // just find the first empty slot\n    }\n    slots[i] = e;                                   // reuse the entry object\n  }\n  used = size;                                      // no tombstones left; size unchanged\n}\n\nThe new table has no tombstones and no duplicate keys, so the probe only has to find the first empty slot: no equals checks needed. After the rehash every non-null slot is live, which is why used becomes size."}, {"id": "Q7", "pts": 4, "kind": "code", "exam": true, "prompt": "Implement rehash for the separate-chaining map. It moves to the next prime in PRIMES (or 2m + 1 once the list runs out) and moves every existing node into its new bucket, inserting at the head. Don't create new nodes.", "stub": "public class HashMap<K, V> implements Map<K, V> {\n  private static class Node<K, V> {\n    K key; V value; Node<K, V> next;\n  }\n  private static final int[] PRIMES = {7, 17, 37, 79, 163, 331, 673};\n  private int primeIndex;          // buckets.length == PRIMES[primeIndex] while in range\n  private Node<K, V>[] buckets;\n  private int size;\n\n  // GIVEN: private int indexFor(K key)   floorMod(key.hashCode(), buckets.length)\n\n  private void rehash() {\n    // TODO\n  }\n}", "rubric": [[0.5, "New capacity: PRIMES[++primeIndex] while in range, otherwise 2 * m + 1"], [0.5, "Keeps a reference to the old array and allocates the new one before reinserting"], [0.5, "Visits every old bucket and every node in its chain"], [0.75, "Saves curr.next before relinking the node"], [0.75, "Computes the new bucket with the new length"], [0.75, "Inserts at the head of that new bucket: curr.next = buckets[i]; buckets[i] = curr;"], [0.25, "Leaves size unchanged"]], "pen": [[-0.5, "Creates new nodes (or calls put) instead of moving the existing ones"], [-0.25, "Indexes with the old length"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "@SuppressWarnings(\"unchecked\")\nprivate void rehash() {\n  Node<K, V>[] old = buckets;\n  int capacity = (primeIndex + 1 < PRIMES.length)\n      ? PRIMES[++primeIndex]\n      : 2 * old.length + 1;\n  buckets = (Node<K, V>[]) new Node[capacity];   // indexFor now uses the new length\n  for (int b = 0; b < old.length; b++) {\n    Node<K, V> curr = old[b];\n    while (curr != null) {\n      Node<K, V> next = curr.next;               // save it: relinking overwrites curr.next\n      int i = indexFor(curr.key);\n      curr.next = buckets[i];                    // insert at the head of the new bucket\n      buckets[i] = curr;\n      curr = next;\n    }\n  }                                              // size is unchanged: same nodes, new places\n}\n\nTwo classic bugs: using PRIMES[primeIndex++] (that's the current size), and setting buckets[i] = curr without curr.next = buckets[i] (the node drags its old chain along)."}, {"id": "Q8", "pts": 4, "kind": "code", "exam": true, "prompt": "Implement in-place heapsort: sort a into ascending order using O(1) extra space and O(n log n) time. Write the helper sink(a, i, n) for a max-heap stored in a[0..n-1] (children of i at 2i + 1 and 2i + 2), then heapSort using it.", "stub": "public static void heapSort(int[] a) {\n  // TODO\n}\n\nprivate static void sink(int[] a, int i, int n) {\n  // TODO: max-heap in a[0..n-1]\n}", "rubric": [[0.25, "sink loops while i has a child: 2 * i + 1 < n (bounded by n, not a.length)"], [0.5, "sink picks the larger child, checking the right child exists"], [0.5, "sink stops when a[i] is at least that child, otherwise swaps and continues from the child"], [0.75, "Builds the max-heap bottom-up: sink from n / 2 - 1 down to 0"], [0.5, "Loops end from n - 1 down to 1"], [0.75, "Swaps a[0] (the max) with a[end]"], [0.75, "Then sinks the root within the shrunk heap: sink(a, 0, end)"]], "pen": [[-0.5, "Uses a min-heap, or a second array or PriorityQueue (not in place)"], [-0.5, "Sinks with the full length after each swap, pulling sorted values back into the heap"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "// Max-heap in a[0..n-1]: moves a[i] down until it is >= both children.\nprivate static void sink(int[] a, int i, int n) {\n  while (2 * i + 1 < n) {\n    int b = 2 * i + 1;                     // left child\n    if (b + 1 < n && a[b + 1] > a[b]) b++; // the larger child\n    if (a[i] >= a[b]) break;\n    int t = a[i]; a[i] = a[b]; a[b] = t;\n    i = b;\n  }\n}\n\npublic static void heapSort(int[] a) {\n  int n = a.length;\n  for (int i = n / 2 - 1; i >= 0; i--) {   // 1. heapify bottom-up: O(n)\n    sink(a, i, n);\n  }\n  for (int end = n - 1; end > 0; end--) {  // 2. move the max to the end, shrink the heap\n    int t = a[0]; a[0] = a[end]; a[end] = t;\n    sink(a, 0, end);                       // heap is now a[0..end-1]\n  }\n}\n\nAfter each swap, a[end..n-1] is sorted and must stay out of the heap, which is why sink takes the heap size as a parameter."}, {"id": "Q9", "pts": 5, "kind": "code", "exam": true, "prompt": "An indexed min-priority queue keeps where, a map from each item to its index in the heap array. Implement swap, which every swim and sink step uses, and changePriority, which gives an item already in the queue a new priority and restores the heap order in O(log n). Throw IllegalArgumentException if the item isn't in the queue.", "stub": "public class IndexedMinPQ<T> {\n  private static class Entry<T> {\n    T item; int priority;\n  }\n  private Entry<T>[] heap;              // heap[0..size-1], root at 0\n  private int size;\n  private Map<T, Integer> where;        // item -> its index in heap\n\n  // GIVEN: private void swim(int i)    uses swap\n  // GIVEN: private void sink(int i)    uses swap\n\n  private void swap(int i, int j) {\n    // TODO\n  }\n\n  public void changePriority(T item, int priority) {\n    // TODO\n  }\n}", "rubric": [[0.75, "swap exchanges the two entries in the array"], [1.25, "swap updates where for both moved items, using their new indices"], [0.75, "changePriority finds the index with where.get(item) (no linear search)"], [0.25, "Throws IllegalArgumentException when the item isn't in the map"], [0.5, "Saves the old priority, then stores the new one in the entry"], [0.75, "Smaller new priority: swim(i)"], [0.75, "Larger new priority: sink(i) (or calls both)"]], "pen": [[-0.5, "Searches the heap array for the item (O(n))"], [-0.5, "Removes and reinserts the item instead of swimming or sinking it in place"], [-0.25, "Swims or sinks in only one direction, whatever the change"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "private void swap(int i, int j) {\n  Entry<T> t = heap[i]; heap[i] = heap[j]; heap[j] = t;\n  where.put(heap[i].item, i);              // both moved entries get their new index\n  where.put(heap[j].item, j);\n}\n\npublic void changePriority(T item, int priority) {\n  Integer i = where.get(item);             // O(1): no searching the heap\n  if (i == null) throw new IllegalArgumentException();\n  int old = heap[i].priority;\n  heap[i].priority = priority;\n  if (priority < old) swim(i);             // smaller is better in a min-heap: move up\n  else sink(i);                            // larger: move down\n}\n\nThe map is only correct if every move goes through swap, and swap moves two items, so both need new map entries. In a min-heap a smaller priority can only break the order with the parent (swim); a larger one only with the children (sink)."}, {"id": "Q10", "pts": 5, "kind": "code", "exam": true, "prompt": "Return the k values that occur most often in a, in any order. If fewer than k distinct values exist, return all of them; if several values tie for the last place, any of them may be chosen. With n values and d distinct ones it must run in O(n + d log k) expected time: count with a HashMap, then pick with a PriorityQueue that never holds more than k entries. Throw IllegalArgumentException if a is null or k is negative.", "stub": "// You may use java.util.HashMap, Map, PriorityQueue, ArrayList, List\npublic static List<Integer> topKFrequent(int[] a, int k) {\n  // TODO\n}", "rubric": [[0.25, "Throws IllegalArgumentException for null or negative k"], [1, "Counts with a HashMap, e.g. count.put(x, count.getOrDefault(x, 0) + 1)"], [0.75, "PriorityQueue entries carry both the value and its count (e.g. int[]{value, count} or Map.Entry)"], [0.75, "Orders the queue by count, least frequent at the root (min-heap by count)"], [1, "Adds while fewer than k entries; once full, replaces the root only when the new count is larger"], [0.5, "Handles k = 0 without crashing"], [0.75, "Returns the values (not the counts) of what is left in the queue"]], "pen": [[-1, "Puts all d entries in the queue, or sorts all the counts"], [-0.5, "Orders by value instead of count"], [-0.125, "Minor logic or major syntax errors showing lack of understanding"]], "reference": "public static List<Integer> topKFrequent(int[] a, int k) {\n  if (a == null || k < 0) throw new IllegalArgumentException();\n  Map<Integer, Integer> count = new HashMap<>();            // 1. count: O(n) expected\n  for (int x : a) {\n    count.put(x, count.getOrDefault(x, 0) + 1);\n  }\n  // 2. MIN-heap by count of {value, count}: root = least frequent of the kept k\n  PriorityQueue<int[]> pq = new PriorityQueue<>((p, q) -> Integer.compare(p[1], q[1]));\n  for (Map.Entry<Integer, Integer> e : count.entrySet()) {\n    int[] pair = {e.getKey(), e.getValue()};\n    if (pq.size() < k) {\n      pq.add(pair);\n    } else if (k > 0 && pair[1] > pq.peek()[1]) {           // more frequent than the weakest kept\n      pq.remove();\n      pq.add(pair);\n    }\n  }\n  List<Integer> out = new ArrayList<>();\n  for (int[] pair : pq) out.add(pair[0]);                   // any order is fine\n  return out;\n}\n\nHashing plus a heap: the map turns n values into d (value, count) pairs in O(n), then it's top k on the counts. Keeping the k most frequent means the one to throw out next is the least frequent kept, so it sits at the root of a min-heap."}]}</script>
+<script src="../assets/store.js"></script>
+<script src="../assets/exam.js"></script>
+</body>
+</html>
